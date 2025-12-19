@@ -13,21 +13,21 @@
   </head>
 
    <body>
-    <!-- PHOTO PANEL (top-left) -->
+    <!-- photo -->
     <div class="desk-panel desk-photo">
       <img class="photo" src="me.jpg" alt="Portrait" />
     </div>
 
-    <!-- NAV PANEL (top-right) -->
+    <!-- navbar -->
     <nav class="desk-panel desk-nav" aria-label="Site navigation">
+      <a href="home.html">about</a>
       <a href="projects.html">projects</a>
       <a href="interests.html">interests</a>
-      <a href="photos.html">photos</a>
-      <a href="reading.html">reading list</a>
+      <a href="reading.html">reading</a>
       <a href="contact.html">contact</a>
     </nav>
 
-    <!-- BIO PANEL (center, offset upward) -->
+    <!-- bio -->
     <main class="desk-center">
       <section class="desk-panel desk-bio">
         <div class="titlebar">
@@ -47,7 +47,7 @@
     </main>
 
     <script>
-      // persist background chosen on index.html
+      // persist background chosen on landing
       const bg = localStorage.getItem("current_bg");
       if (bg) document.body.style.backgroundImage = `url('${bg}')`;
     </script>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>projects</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <!-- photo -->
+    <div class="desk-panel desk-photo">
+      <img class="photo" src="me.jpg" alt="Portrait" />
+    </div>
+
+    <!-- navbar -->
+    <nav class="desk-panel desk-nav" aria-label="Site navigation">
+      <a href="home.html">about</a>
+      <a href="projects.html">projects</a>
+      <a href="interests.html">interests</a>
+      <a href="reading.html">reading</a>
+      <a href="contact.html">contact</a>
+    </nav>
+
+    <!-- projects -->
+    <main class="desk-center">
+      <section class="desk-panel desk-bio" style="width: 760px; max-width: 92vw;">
+        <div class="titlebar">
+          <span class="title">projects</span>
+          <a class="titlebtn" href="home.html" aria-label="Back">←</a>
+        </div>
+
+        <div class="project-stack">
+          <section class="panel">
+            <div class="titlebar">
+              <span class="title">robot dog basketball launcher</span>
+              <span class="spacer"></span>
+            </div>
+            <div class="project-content">
+              <p>[one-line description]</p>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="titlebar">
+              <span class="title">sensor fusion stack</span>
+              <span class="spacer"></span>
+            </div>
+            <div class="project-content">
+              <p>[one-line description]</p>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="titlebar">
+              <span class="title">embedded systems tools</span>
+              <span class="spacer"></span>
+            </div>
+            <div class="project-content">
+              <p>[one-line description]</p>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const bg = localStorage.getItem("current_bg");
+      if (bg) document.body.style.backgroundImage = `url('${bg}')`;
+    </script>
+  </body>
+</html>

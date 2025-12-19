@@ -177,3 +177,34 @@ body{
   line-height: 1.45;
   margin-top: 6px;
 }
+
+.panel{
+  background: var(--win-gray);
+  border: 2px solid var(--win-darker);
+  border-top-color: var(--win-light);
+  border-left-color: var(--win-light);
+  border-right-color: var(--win-darker);
+  border-bottom-color: var(--win-darker);
+}
+
+/* stack + spacing for nested project panels */
+.project-stack{
+  display: grid;
+  gap: 12px;
+  padding: 14px 16px 16px;
+}
+
+.project-content{
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.panel .titlebar{
+  background: #b0b0b0;  
+  color: #000;
+}
+
+.panel{
+  background: #cfcfcf;
+}

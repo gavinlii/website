@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>home</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preload" as="image" href="bg1.png">
+    <link rel="preload" as="image" href="bg2.png">
+    <link rel="preload" as="image" href="bg3.png">
+    <link rel="preload" as="image" href="bg4.png">
+    <link rel="preload" as="image" href="bg6.png">
+  </head>
+
+  <body>
+    <main class="center">
+      <section class="window" role="dialog" aria-label="home">
+        <div class="titlebar">
+          <span class="title">home</span>
+          <a class="titlebtn linkbtn" href="index.html" aria-label="Back">↩</a>
+        </div>
+
+        <div class="content">
+          <h1 class="question">your name</h1>
+          <p class="hint">EE + robotics · embedded · systems</p>
+
+          <div class="stack">
+            <section class="window inner" role="dialog" aria-label="about">
+              <div class="titlebar">
+                <span class="title">about</span>
+                <span class="spacer"></span>
+              </div>
+              <div class="content">
+                <p class="hint">
+                  short, specific, a little strange. you build things that move.
+                </p>
+              </div>
+            </section>
+
+            <section class="window inner" role="dialog" aria-label="links">
+              <div class="titlebar">
+                <span class="title">links</span>
+                <span class="spacer"></span>
+              </div>
+              <div class="content">
+                <div class="links-row">
+                  <a class="win-btn" href="#" target="_blank" rel="noreferrer">github</a>
+                  <a class="win-btn" href="#" target="_blank" rel="noreferrer">resume</a>
+                  <a class="win-btn" href="mailto:you@example.com">email</a>
+                </div>
+              </div>
+            </section>
+
+            <section class="window inner" role="dialog" aria-label="projects">
+              <div class="titlebar">
+                <span class="title">projects</span>
+                <span class="spacer"></span>
+              </div>
+              <div class="content">
+                <ul class="bullets">
+                  <li><a href="#" target="_blank" rel="noreferrer">robot dog basketball launcher</a> — flywheel, control loop, repeatability</li>
+                  <li><a href="#" target="_blank" rel="noreferrer">sensor fusion stack</a> — imu + encoders, logging, test harness</li>
+                  <li><a href="#" target="_blank" rel="noreferrer">small systems tools</a> — benchmarks, cli utilities, reproducible results</li>
+                </ul>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // keep the same background the user saw on index.html
+      const bg = localStorage.getItem("current_bg");
+      if (bg) document.body.style.backgroundImage = `url('${bg}')`;
+    </script>
+  </body>
+</html>

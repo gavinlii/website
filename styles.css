@@ -2,6 +2,19 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  cursor: url("cursorpack/arrow.cur"), default;
+}
+
+a,
+button {
+  cursor: url("cursorpack/hand.cur"), pointer;
+}
+
+/* text selection */
+p,
+h1, h2, h3,
+span {
+  cursor: url("cursorpack/text.cur"), text;
 }
 
 html, body {

@@ -160,6 +160,8 @@ body{
   position: relative;
   width: 420px;
   max-width: 92vw;
+  max-height: calc(100vh - 200px); /* leaves margin top/bottom */
+  overflow-y: auto;
 }
 
 .bio-content{
@@ -207,4 +209,14 @@ body{
 
 .panel{
   background: #cfcfcf;
+}
+
+.projects-window{
+  margin-top: 235px;
+}
+
+.projects-window > .titlebar{ /*keepwindow titlebar sticky */
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }

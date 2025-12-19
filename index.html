@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>gavin lii griffin</title>
     <link rel="stylesheet" href="styles.css" />
-    <link rel="preload" as="image" href="bg1.png">
-    <link rel="preload" as="image" href="bg2.png">
-    <link rel="preload" as="image" href="bg3.png">
-    <link rel="preload" as="image" href="bg4.png">
-    <link rel="preload" as="image" href="bg6.png">
+    <link rel="preload" as="image" href="assets/bg1.webp"> <!-- 1-min is too grey -->
+    <link rel="preload" as="image" href="assets/bg2-min.webp">
+    <link rel="preload" as="image" href="assets/bg3-min.webp">
+    <link rel="preload" as="image" href="assets/bg4.webp">
+    <link rel="preload" as="image" href="assets/bg6-min.webp">
   </head>
 
    <body>
@@ -52,7 +52,7 @@
       }
 
       // background (no consecutive repeats) + persist for home.html
-      const backgrounds = ["assets/bg1.png", "assets/bg2.png", "assets/bg3.png", "assets/bg4.png", "assets/bg6.png"];
+      const backgrounds = ["assets/bg1.webp", "assets/bg2-min.webp", "assets/bg3-min.webp", "assets/bg4.webp", "assets/bg6-min.webp"];
       const bg = pickNonRepeating("last_bg", backgrounds);
       if (bg) {
         document.body.style.backgroundImage = `url('${bg}')`;

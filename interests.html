@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>interests</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preload" as="image" href="assets/bg1.webp"> <!-- 1-min is too grey -->
+    <link rel="preload" as="image" href="assets/bg2-min.webp">
+    <link rel="preload" as="image" href="assets/bg3-min.webp">
+    <link rel="preload" as="image" href="assets/bg4.webp">
+    <link rel="preload" as="image" href="assets/bg6-min.webp">
+  </head>
+
+  <body>
+    <!-- photo -->
+    <div class="desk-panel desk-photo">
+      <img class="photo" src="assets/me.webp" alt="Portrait" />
+    </div>
+
+    <!-- navbar -->
+    <nav class="desk-panel desk-nav" aria-label="Site navigation">
+      <a href="home.html">about</a>
+      <a href="projects.html">projects</a>
+      <a href="interests.html">interests</a>
+      <a href="reading.html">reading</a>
+      <a href="contact.html">contact</a>
+    </nav>
+
+    <!-- interests -->
+    <main class="desk-center">
+        <section class="desk-panel desk-bio projects-window" style="width: 760px; max-width: 92vw;">
+        <div class="titlebar">
+          <span class="title">interests</span>
+          <a class="titlebtn" href="home.html" aria-label="Back">李</a>
+        </div>
+
+        <div class="project-stack">
+          <section class="panel">
+            <div class="titlebar">
+              <span class="title">robot dog basketball launcher</span>
+              <span class="spacer"></span>
+            </div>
+            <div class="project-content">
+              <p>[one-line description]</p>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="titlebar">
+              <span class="title">sensor fusion stack</span>
+              <span class="spacer"></span>
+            </div>
+            <div class="project-content">
+              <p>[one-line description]</p>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="titlebar">
+              <span class="title">embedded systems tools</span>
+              <span class="spacer"></span>
+            </div>
+            <div class="project-content">
+              <p>[one-line description]</p>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="titlebar">
+              <span class="title">embedded systems tools</span>
+              <span class="spacer"></span>
+            </div>
+            <div class="project-content">
+              <p>[one-line description]</p>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="titlebar">
+              <span class="title">embedded systems tools</span>
+              <span class="spacer"></span>
+            </div>
+            <div class="project-content">
+              <p>[one-line description]</p>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="titlebar">
+              <span class="title">embedded systems tools</span>
+              <span class="spacer"></span>
+            </div>
+            <div class="project-content">
+              <p>[one-line description]</p>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="titlebar">
+              <span class="title">embedded systems tools</span>
+              <span class="spacer"></span>
+            </div>
+            <div class="project-content">
+              <p>[one-line description]</p>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="titlebar">
+              <span class="title">embedded systems tools</span>
+              <span class="spacer"></span>
+            </div>
+            <div class="project-content">
+              <p>[one-line description]</p>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="titlebar">
+              <span class="title">embedded systems tools</span>
+              <span class="spacer"></span>
+            </div>
+            <div class="project-content">
+              <p>[one-line description]</p>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const bg = localStorage.getItem("current_bg");
+      if (bg) document.body.style.backgroundImage = `url('${bg}')`;
+    </script>
+  </body>
+</html>

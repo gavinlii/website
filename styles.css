@@ -166,7 +166,7 @@ body{
   min-height: 100%;
   display: grid;
   place-items: center;
-  transform: translateY(-60px);
+  transform: translateY(-70px);
 }
 
 .desk-bio{

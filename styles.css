@@ -1,124 +1,41 @@
-/* ---------- hard reset ---------- */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-/* ---------- background ---------- */
+html, body {
+  height: 100%;
+}
+
+/* system palette */
+:root{
+  --sys: "MS Sans Serif", "Microsoft Sans Serif", Tahoma, Arial, sans-serif;
+
+  --win-gray: #c0c0c0;
+  --win-light: #ffffff;
+  --win-dark: #808080;
+  --win-darker: #404040;
+  --win-blue: #000080;
+}
+
+/* background */
 body{
+  background-color: #000;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
-  /* optional: very slight darken so the window reads on bright photos */
-  background-color: #000;
-}
-
-.center{
-  min-height: 100%;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  transform: translateY(-50px);
-}
-
-/* ---------- retro system font ---------- */
-:root{
-  --sys: "MS Sans Serif", "Microsoft Sans Serif", Tahoma, Verdana, Arial, sans-serif;
-
-  /* Win95-ish palette */
-  --win-gray: #C0C0C0;
-  --win-dark: #808080;
-  --win-darker: #404040;
-  --win-light: #FFFFFF;
-  --win-blue: #000080;
-}
-
-.window{
-  width: 360px; 
-  max-width: 92vw;
-  background: var(--win-gray);
-  border: 2px solid var(--win-darker);
-  box-shadow: none;          /* keep it flat/era-correct */
   font-family: var(--sys);
   color: #000;
-
-  /* classic raised outer bevel */
-  border-top-color: var(--win-light);
-  border-left-color: var(--win-light);
-  border-right-color: var(--win-darker);
-  border-bottom-color: var(--win-darker);
 }
 
-.titlebar{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--win-blue);
-  color: #fff;
-  padding: 6px 15px;
-  font-weight: 700;
-  letter-spacing: 0;
-  user-select: none;
-}
-
-.title{
-  font-size: 14px;
-  line-height: 1;
-}
-
-.titlebtn{
-  font-family: var(--sys);
-  font-size: 12px;
-  line-height: 1;
-  width: 18px;
-  height: 18px;
-  cursor: default;
+/* desk panel — core primitive */
+.desk-panel{
+  position: fixed;
+  z-index: 2;
 
   background: var(--win-gray);
-  color: #000;
-
-  /* tiny raised button */
-  border: 2px solid var(--win-darker);
-  border-top-color: var(--win-light);
-  border-left-color: var(--win-light);
-  border-right-color: var(--win-darker);
-  border-bottom-color: var(--win-darker);
-}
-
-.titlebtn:active{
-  /* pressed-in */
-  border-top-color: var(--win-darker);
-  border-left-color: var(--win-darker);
-  border-right-color: var(--win-light);
-  border-bottom-color: var(--win-light);
-}
-
-.content{
-  padding: 14px 14px 16px;
-}
-
-.hint{
-  font-size: 12px;
-  margin-bottom: 10px;
-}
-
-.question{
-  font-size: 22px;
-  margin-bottom: 14px;
-  font-weight: 700;
-}
-
-/* ---------- the button: pure 90s bevel ---------- */
-.win-btn{
-  display: inline-block;
-  font-family: var(--sys);
-  font-size: 13px;
-  line-height: 1;
-
-  padding: 7px 14px;         /* chunky padding like the reference */
-  background: var(--win-gray);
-  color: #000;
-  text-decoration: none;
-  cursor: default;
 
   /* raised bevel */
   border: 2px solid var(--win-darker);
@@ -128,62 +45,37 @@ body{
   border-bottom-color: var(--win-darker);
 }
 
-.win-btn:active{
-  /* pressed bevel */
-  border-top-color: var(--win-darker);
-  border-left-color: var(--win-darker);
-  border-right-color: var(--win-light);
-  border-bottom-color: var(--win-light);
+/* title bar for bio panel */
+.titlebar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-  /* slight nudge to sell the press without animation */
-  position: relative;
-  top: 1px;
-  left: 1px;
+  background: var(--win-blue);
+  color: #fff;
+
+  padding: 4px 6px;
+  font-size: 13px;
+  font-weight: bold;
+  user-select: none;
 }
 
-/* keyboard focus: dotted outline like old Windows */
-.win-btn:focus{
-  outline: 1px dotted #000;
-  outline-offset: -4px;
+.title{
+  white-space: nowrap;
+  padding-left: 10px;
 }
 
-.stack { display: grid; gap: 12px; margin-top: 12px; }
-.window.inner { width: auto; max-width: none; }
-
-.links-row { display: flex; gap: 10px; flex-wrap: wrap; }
-
-/* make the titlebar "back" look like a title button */
-.linkbtn{
+.titlebtn{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  text-decoration: none;
-}
-.spacer{ width: 18px; height: 18px; }
 
-.home-window{
-  width: 420px;
-  max-width: 92vw;
-}
-
-.home-content{
-  padding: 12px;
-}
-
-/* top row: photo left, nav right */
-.home-top{
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-/* photo */
-.photo-frame{
-  width: 88px;
-  height: 88px;
-  padding: 4px;
   background: var(--win-gray);
+  color: #000;
+  text-decoration: none;
+  font-weight: normal;
+
+  padding: 1px 4px;
 
   border: 2px solid var(--win-darker);
   border-top-color: var(--win-light);
@@ -192,27 +84,86 @@ body{
   border-bottom-color: var(--win-darker);
 }
 
-.photo-frame img{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.enter-btn{
+  padding: 7px 8px;
+  line-height: 1.2;
+}
+
+.titlebtn:active{
+  border-top-color: var(--win-darker);
+  border-left-color: var(--win-darker);
+  border-right-color: var(--win-light);
+  border-bottom-color: var(--win-light);
+}
+
+/* photo panel */
+.desk-photo{
+  top: 18px;
+  left: 18px;
+  padding: 1px 1px;
+}
+
+.photo{
+  max-width: 50px;
+  max-height: 50px;
   display: block;
+
+  border: 2px solid var(--win-darker);
+  border-top-color: var(--win-dark);
+  border-left-color: var(--win-dark);
+  border-right-color: var(--win-light);
+  border-bottom-color: var(--win-light);
 }
 
 /* nav */
-.home-nav{
-  display: grid;
-  gap: 4px;
-  font-size: 13px;
+.desk-nav{
+  top: 18px;
+  right: 18px;
+
+  padding: 10px 12px;
+  max-width: 220px;
+
   text-align: right;
 }
 
-.home-nav a{
+.desk-nav a{
+  display: block;
+  font-size: 14px;
+  line-height: 1.6;
   color: #000;
   text-decoration: none;
 }
 
-.home-nav a:hover{
+.desk-nav a:hover{
   text-decoration: underline;
 }
 
+/* bio */
+.desk-center{
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  transform: translateY(-60px);
+}
+
+.desk-bio{
+  position: relative;
+  width: 420px;
+  max-width: 92vw;
+}
+
+.bio-content{
+  padding: 14px 16px 16px;
+  text-align: center;
+}
+
+.desk-bio h1{
+  font-size: 20px;
+  margin-bottom: 6px;
+}
+
+.desk-bio p{
+  font-size: 14px;
+  line-height: 1.45;
+  margin-top: 6px;
+}

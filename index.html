@@ -12,52 +12,53 @@
     <link rel="preload" as="image" href="bg6.png">
   </head>
 
-  <body>
-    <main class="center">
-    <section class="window" role="dialog" aria-label="hello room">
-    <div class="titlebar">
-      <span class="title" id="window-title">randomtitle</span>
-      <button class="titlebtn" aria-label="Close" type="button">李</button>
-    </div>
+   <body>
+    <main class="desk-center">
+      <!-- Main dialog window -->
+      <section
+        class="desk-panel"
+        style="position: relative; width: 360px; max-width: 92vw;"
+      >
+        <div class="titlebar">
+          <span class="title" id="window-title"></span>
+          <button class="titlebtn" aria-label="Close" type="button">李</button>
+        </div>
 
-    <div class="content">
-      <a class="win-btn" href="home.html">
-        see more
-      </a>
-    </div>
-    </section>
-  </main>
+        <div style="padding: 12px 16px 16px;">
+          <a class="titlebtn enter-btn" href="home.html">see more</a>
+        </div>
+      </section>
+    </main>
 
-    <script>                         
-    function pickNonRepeating(key, options) {
-    if (!Array.isArray(options) || options.length === 0) return null;
-    if (options.length === 1) return options[0];
+    <script>
+      function pickNonRepeating(key, options) {
+        if (!Array.isArray(options) || options.length === 0) return null;
+        if (options.length === 1) return options[0];
 
-    const last = localStorage.getItem(key);
-    let chosen = options[Math.floor(Math.random() * options.length)];
+        const last = localStorage.getItem(key);
+        let chosen = options[Math.floor(Math.random() * options.length)];
 
-    // try a few times to avoid repeats
-    for (let i = 0; i < 10 && chosen === last; i++) {
-      chosen = options[Math.floor(Math.random() * options.length)];
-    }
+        for (let i = 0; i < 10 && chosen === last; i++) {
+          chosen = options[Math.floor(Math.random() * options.length)];
+        }
 
-    // hard guarantee: if still same, pick a different index deterministically
-    if (chosen === last) {
-      const idx = options.indexOf(last);
-      chosen = options[(idx + 1) % options.length];
-    }
+        if (chosen === last) {
+          const idx = options.indexOf(last);
+          chosen = options[(idx + 1) % options.length];
+        }
 
-    localStorage.setItem(key, chosen);
-    return chosen;
-  }
+        localStorage.setItem(key, chosen);
+        return chosen;
+      }
 
-  /* ---------- backgrounds (no consecutive repeats) ---------- */
-  const backgrounds = ["bg1.png", "bg2.png", "bg3.png", "bg4.png", "bg6.png"];
-  const bg = pickNonRepeating("last_bg", backgrounds);
-  if (bg) {
-    document.body.style.backgroundImage = `url('${bg}')`;
-    localStorage.setItem("current_bg", bg); 
-  }
+      // background (no consecutive repeats) + persist for home.html
+      const backgrounds = ["bg1.png", "bg2.png", "bg3.png", "bg4.png", "bg6.png"];
+      const bg = pickNonRepeating("last_bg", backgrounds);
+      if (bg) {
+        document.body.style.backgroundImage = `url('${bg}')`;
+        localStorage.setItem("current_bg", bg);
+      }
+
       const titles = [
     "a fleeting greeting",                 
     "hello, screen!",              

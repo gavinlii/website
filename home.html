@@ -12,48 +12,42 @@
     <link rel="preload" as="image" href="bg6.png">
   </head>
 
- <body>
-    <main class="center">
-      <section class="window home-window" role="dialog" aria-label="home">
+   <body>
+    <!-- PHOTO PANEL (top-left) -->
+    <div class="desk-panel desk-photo">
+      <img class="photo" src="bg4.png" alt="Portrait" />
+    </div>
+
+    <!-- NAV PANEL (top-right) -->
+    <nav class="desk-panel desk-nav" aria-label="Site navigation">
+      <a href="projects.html">projects</a>
+      <a href="interests.html">interests</a>
+      <a href="photos.html">photos</a>
+      <a href="reading.html">reading list</a>
+      <a href="contact.html">contact</a>
+    </nav>
+
+    <!-- BIO PANEL (center, offset upward) -->
+    <main class="desk-center">
+      <section class="desk-panel desk-bio">
         <div class="titlebar">
-          <span class="title">home</span>
-          <span class="spacer"></span>
+          <span class="title">about</span>
+          <a class="titlebtn" href="index.html" aria-label="Back">←</a>
         </div>
 
-        <div class="home-content">
-          <!-- top row -->
-          <div class="home-top">
-            <!-- photo -->
-            <div class="photo-frame">
-              <img src="me.jpg" alt="Portrait" />
-            </div>
-
-            <!-- nav -->
-            <nav class="home-nav">
-              <a href="projects.html">projects</a>
-              <a href="interests.html">interests</a>
-              <a href="photos.html">photos</a>
-              <a href="reading.html">reading list</a>
-              <a href="contact.html">contact</a>
-            </nav>
-          </div>
-
-          <!-- centered bio -->
-          <div class="home-bio">
-            <h1 class="question">gavin lii griffin</h1>
-            <p class="hint">
-              ee + robotics. embedded systems. building machines that behave.
-            </p>
-            <p class="hint">
-              currently interested in control, sensing, and intentional design.
-            </p>
-          </div>
+        <div class="bio-content">
+          <h1>gavin lii griffin</h1>
+          <p>ee + robotics · embedded systems · controls</p>
+          <p>
+            i build machines that move and interfaces that behave.
+            interested in sensing, actuation, and long-lived systems.
+          </p>
         </div>
       </section>
     </main>
 
     <script>
-      // keep background consistent with index.html
+      // persist background chosen on index.html
       const bg = localStorage.getItem("current_bg");
       if (bg) document.body.style.backgroundImage = `url('${bg}')`;
     </script>

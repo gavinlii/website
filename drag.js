@@ -1,4 +1,4 @@
-// drag.js — global window manager (no jump under transformed parents)
+// drag.js — global draggable window manager
 
 let topZ = 10;
 let draggingWin = null;
@@ -11,20 +11,17 @@ function bringToFront(win) {
 }
 
 function promoteToBodyAndFreeze(win) {
-  // Compute current screen position
   const rect = win.getBoundingClientRect();
 
-  // Move to <body> so transformed parents can't affect fixed positioning
+  // move to body to avoid transformed-parent issues
   if (win.parentElement !== document.body) {
     document.body.appendChild(win);
   }
 
-  // Freeze at the same on-screen position in px
   win.style.position = "fixed";
   win.style.left = rect.left + "px";
-  win.style.top = rect.top + "px";
+  win.style.top  = rect.top  + "px";
 
-  // Clear conflicting layout props that can cause jumps
   win.style.right = "auto";
   win.style.bottom = "auto";
   win.style.margin = "0";
@@ -35,20 +32,19 @@ function onMouseMove(e) {
   if (!draggingWin) return;
 
   const winRect = draggingWin.getBoundingClientRect();
-
   const viewportW = window.innerWidth;
   const viewportH = window.innerHeight;
 
-  // Desired new position
   let newLeft = e.clientX - offsetX;
   let newTop  = e.clientY - offsetY;
 
-  // ---- CLAMPING ----
-  // Horizontal: keep at least 20px visible
+  // ---- clamps babyyyy ----
+
+  // horizontal: keep at least ~40px visible
   const minLeft = -winRect.width + 40;
   const maxLeft = viewportW - 40;
 
-  // Vertical: keep titlebar visible
+  // vertical: keep titlebar reachable
   const titlebar = draggingWin.querySelector(".titlebar");
   const barHeight = titlebar ? titlebar.offsetHeight : 32;
 
@@ -58,11 +54,9 @@ function onMouseMove(e) {
   newLeft = Math.min(Math.max(newLeft, minLeft), maxLeft);
   newTop  = Math.min(Math.max(newTop, minTop), maxTop);
 
-  // Apply
   draggingWin.style.left = newLeft + "px";
   draggingWin.style.top  = newTop  + "px";
 }
-
 
 function onMouseUp() {
   draggingWin = null;
@@ -71,27 +65,26 @@ function onMouseUp() {
   document.removeEventListener("mouseup", onMouseUp);
 }
 
-// CLICK ANYWHERE ON A WINDOW → BRING TO FRONT
+/* click anywhere on window to bring to dront */
 document.addEventListener("mousedown", (e) => {
   const win = e.target.closest(".desk-panel");
   if (!win) return;
   bringToFront(win);
 });
 
-// DRAG ONLY FROM TITLEBAR
 document.addEventListener("mousedown", (e) => {
   const bar = e.target.closest(".titlebar");
   if (!bar) return;
+
+  // don't drag when clicking interactive controls
+  if (e.target.closest("a, button")) return;
 
   const win = bar.closest(".desk-panel");
   if (!win) return;
 
   bringToFront(win);
-
-  // Critical: eliminate transform-container jumps
   promoteToBodyAndFreeze(win);
 
-  // Compute offsets after freezing
   const rect = win.getBoundingClientRect();
   offsetX = e.clientX - rect.left;
   offsetY = e.clientY - rect.top;
@@ -101,5 +94,5 @@ document.addEventListener("mousedown", (e) => {
   document.addEventListener("mousemove", onMouseMove);
   document.addEventListener("mouseup", onMouseUp);
 
-  e.preventDefault();
+  e.preventDefault(); // prevent text selection
 });

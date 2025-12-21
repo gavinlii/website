@@ -211,3 +211,15 @@ window.addEventListener(
   },
   { passive: false }
 );
+
+/* mobile background layer (esp. iOS) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--bg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

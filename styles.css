@@ -435,14 +435,14 @@ body::before {
   background-size: cover;
 }
 
-/* Only the main window titlebar shows grab cursor */
-.desk-panel > .titlebar {
+/* DEFAULT state (not dragging) */
+body:not(.dragging) .desk-panel > .titlebar {
   cursor: url("cursorpack/openhand.cur"), move;
 }
 
-/* Nested/subtitle titlebars should not look draggable */
-.desk-panel .desk-panel .titlebar,
-.panel .titlebar {
+/* DEFAULT state (not dragging): nested subtitle bars are NOT draggable */
+body:not(.dragging) .panel .titlebar,
+body:not(.dragging) .desk-panel .panel .titlebar {
   cursor: url("cursorpack/arrow.cur"), default;
 }
 

@@ -69,56 +69,8 @@
       if (bg) {
         document.body.style.backgroundImage = `url('${bg}')`;
       }
-
-      const windows = document.querySelectorAll(".cascade-window");
-      let topZ = 10;
-      let draggingWin = null;
-      let offsetX = 0;
-      let offsetY = 0;
-
-      function onMouseMove(e) {
-        if (!draggingWin) return;
-        draggingWin.style.left = (e.clientX - offsetX) + "px";
-        draggingWin.style.top  = (e.clientY - offsetY) + "px";
-      }
-
-      function onMouseUp() {
-        draggingWin = null;
-        document.removeEventListener("mousemove", onMouseMove);
-        document.removeEventListener("mouseup", onMouseUp);
-      }
-
-      windows.forEach(win => {
-        const bar = win.querySelector(".titlebar");
-        if (!bar) return;
-
-        // 1) CLICK ANYWHERE ON WINDOW → BRING TO FRONT
-        win.addEventListener("mousedown", () => {
-          topZ += 1;
-          win.style.zIndex = topZ;
-        });
-
-        // 2) DRAG ONLY FROM TITLEBAR
-        bar.style.cursor = "move";
-
-        bar.addEventListener("mousedown", (e) => {
-          const rect = win.getBoundingClientRect();
-          offsetX = e.clientX - rect.left;
-          offsetY = e.clientY - rect.top;
-          draggingWin = win;
-
-          document.addEventListener("mousemove", onMouseMove);
-          document.addEventListener("mouseup", onMouseUp);
-          e.preventDefault(); // avoid text selection while dragging
-        });
-      });
     </script>
-  </body>
-</html>
-
-  </body>
-</html>
-
-
+    <script src="layout.js"></script>
+    <script src="drag.js"></script>
   </body>
 </html>

@@ -7,14 +7,14 @@
 
 a,
 button {
-  cursor: url("cursorpack/hand.cur"), pointer;
+  cursor: url("cursorpack/hand.cur"), default;
 }
 
 /* text selection */
 p,
 h1, h2, h3,
 span {
-  cursor: url("cursorpack/text.cur"), text;
+  cursor: url("cursorpack/text.cur"), default;
 }
 
 html, body {
@@ -382,12 +382,17 @@ body{
 /* while dragging, force cursor + prevent selection everywhere */
 body.dragging,
 body.dragging * {
-  cursor: url("cursorpack/hand.cur"), move !important;
+  cursor: url("cursorpack/openhand.cur"), move;
   user-select: none !important;
 }
 
 /* titlebar always shows move cursor */
-.titlebar { cursor: url("cursorpack/hand.cur"), move; }
+.titlebar { cursor: url("cursorpack/openhand.cur"), move; }
+
+.titlebar a,
+.titlebar button {
+  cursor: url("cursorpack/hand.cur"), move;
+}
 
 
 

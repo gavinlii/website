@@ -8,11 +8,11 @@ const backgrounds = [
   "/assets/bg6-min.webp",
 ];
 
-// Apply stored background immediately
+// Apply stored background immediately (via CSS variable)
 (function applyStoredBg() {
   const storedBg = localStorage.getItem("current_bg");
   if (storedBg) {
-    document.body.style.backgroundImage = `url('${storedBg}')`;
+    document.body.style.setProperty("--bg", `url('${storedBg}')`);
   }
 })();
 
@@ -35,9 +35,11 @@ async function injectChrome() {
     rerollBtn.addEventListener("click", () => {
       const current = localStorage.getItem("current_bg");
       const options = backgrounds.filter(src => src !== current);
-      const next = options[Math.floor(Math.random() * options.length)] || backgrounds[0];
+      const next =
+        options[Math.floor(Math.random() * options.length)] || backgrounds[0];
 
-      document.body.style.backgroundImage = `url('${next}')`;
+      // ✅ set CSS variable instead of body background
+      document.body.style.setProperty("--bg", `url('${next}')`);
       localStorage.setItem("current_bg", next);
       localStorage.setItem("last_bg", next);
     });

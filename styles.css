@@ -414,4 +414,23 @@ body.dragging .desk-panel {
   will-change: transform;
 }
 
+/* Fixed background layer (mobile-safe, iOS-safe) */
+html, body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+/* Fixed background layer (mobile-safe, iOS-safe) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--bg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 

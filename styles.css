@@ -60,6 +60,8 @@ body{
 
 /* title bar for bio panel */
 .titlebar{
+  cursor: move;
+  user-select: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -338,7 +340,6 @@ body{
 
 /* interests: cascading windows */
 .cascade-window {
-  transition: box-shadow 0.1s ease;
   position: fixed;        
   width: 420px;
   max-width: 90vw;
@@ -368,11 +369,6 @@ body{
   line-height: 1.4;
 }
 
-.cascade-window:hover {
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);
-  transition: box-shadow 0.1s ease;
-}
-
 .reroll-btn{
   position: fixed;
   background: #b2b2b2;
@@ -382,5 +378,16 @@ body{
   font-size: 19px;
   padding: 1px 5px;
 }
+
+/* while dragging, force cursor + prevent selection everywhere */
+body.dragging,
+body.dragging * {
+  cursor: url("cursorpack/hand.cur"), move !important;
+  user-select: none !important;
+}
+
+/* titlebar always shows move cursor */
+.titlebar { cursor: url("cursorpack/hand.cur"), move; }
+
 
 

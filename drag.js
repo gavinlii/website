@@ -157,20 +157,41 @@ document.addEventListener("pointerdown", (e) => {
   bringToFront(win);
 });
 
-/* drag start: only from titlebar, NOT on buttons/links */
+/* drag start: ONLY from the MAIN (top-level) titlebar; NOT on buttons/links
+   mobile: allow +20px slop below the main titlebar */
 document.addEventListener(
   "pointerdown",
   (e) => {
-    const bar = e.target.closest(".titlebar");
-    if (!bar) return;
-
+    // Ignore interactions with controls
     if (e.target.closest("a, button")) return;
 
-    const win = bar.closest(".desk-panel");
+    const win = e.target.closest(".desk-panel");
     if (!win) return;
 
-    startDrag(win, bar, e.clientX, e.clientY, e.pointerId);
+    // Main titlebar = direct child of the window (prevents nested panel titlebars)
+    const mainBar = win.querySelector(":scope > .titlebar");
+    if (!mainBar) return;
 
+    const mobile = window.matchMedia("(max-width: 900px)").matches;
+
+    if (!mobile) {
+      // Desktop: must click *on the main bar itself* (not nested bars)
+      const hitBar = e.target.closest(".titlebar");
+      if (hitBar !== mainBar) return;
+
+      startDrag(win, mainBar, e.clientX, e.clientY, e.pointerId);
+      e.preventDefault();
+      return;
+    }
+
+    // Mobile: main bar + 20px hit slop below it
+    const rect = mainBar.getBoundingClientRect();
+    const y = e.clientY;
+    const paddedBottom = rect.bottom + 20;
+
+    if (y < rect.top || y > paddedBottom) return;
+
+    startDrag(win, mainBar, e.clientX, e.clientY, e.pointerId);
     e.preventDefault();
   },
   { passive: false }

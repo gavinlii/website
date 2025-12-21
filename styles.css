@@ -397,12 +397,13 @@ html, body {
   overscroll-behavior-y: none;
 }
 
-/* iOS Safari: prevent rubber-band scroll from grabbing the page */
-body {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+@media (max-width: 900px) {
+  body {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
 }
 
 /* smoothen dragging */

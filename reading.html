@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>reading</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preload" as="image" href="assets/bg1.webp">
+    <link rel="preload" as="image" href="assets/bg2-min.webp">
+    <link rel="preload" as="image" href="assets/bg3-min.webp">
+    <link rel="preload" as="image" href="assets/bg4.webp">
+    <link rel="preload" as="image" href="assets/bg6-min.webp">
+  </head>
+
+  <body>
+    <!-- photo -->
+    <div class="desk-panel desk-photo">
+      <img class="photo" src="assets/me.webp" alt="Portrait" />
+    </div>
+
+    <!-- navbar -->
+    <nav class="desk-panel desk-nav" aria-label="Site navigation">
+      <a href="home.html">about</a>
+      <a href="projects.html">projects</a>
+      <a href="interests.html">interests</a>
+      <a href="reading.html">reading</a>
+      <a href="contact.html">contact</a>
+    </nav>
+
+    <!-- reading window -->
+    <main class="desk-center">
+      <section class="desk-panel desk-bio projects-window" style="width: 760px; max-width: 92vw;">
+        <div class="titlebar">
+          <span class="title">reading</span>
+          <a class="titlebtn" href="home.html" aria-label="Back">李</a>
+        </div>
+
+        <!-- inner content: tabs + lists -->
+        <div class="reading-shell">
+          <div class="reading-tabs">
+            <button class="titlebtn reading-tab tab-active" data-tab="books">books</button>
+            <button class="titlebtn reading-tab" data-tab="papers">papers</button>
+            <button class="titlebtn reading-tab" data-tab="essays">essays</button>
+            <button class="titlebtn reading-tab" data-tab="misc">misc</button>
+          </div>
+
+          <div class="reading-content">
+            <!-- BOOKS -->
+            <section class="reading-section" id="tab-books">
+              <ul class="reading-list">
+                <li>Book Title 1 — [placeholder]</li>
+                <li>Book Title 2 — [placeholder]</li>
+                <li>Book Title 3 — [placeholder]</li>
+              </ul>
+            </section>
+
+            <!-- PAPERS -->
+            <section class="reading-section hidden" id="tab-papers">
+              <ul class="reading-list">
+                <li>Paper Title 1 — [placeholder]</li>
+                <li>Paper Title 2 — [placeholder]</li>
+              </ul>
+            </section>
+
+            <!-- ESSAYS -->
+            <section class="reading-section hidden" id="tab-essays">
+              <ul class="reading-list">
+                <li>Essay 1 — [placeholder]</li>
+                <li>Essay 2 — [placeholder]</li>
+              </ul>
+            </section>
+
+            <!-- MISC -->
+            <section class="reading-section hidden" id="tab-misc">
+              <ul class="reading-list">
+                <li>Item 1 — [placeholder]</li>
+                <li>Item 2 — [placeholder]</li>
+              </ul>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // persist background chosen on landing
+      const bg = localStorage.getItem("current_bg");
+      if (bg) document.body.style.backgroundImage = `url('${bg}')`;
+
+      // tab switching
+      const tabs = document.querySelectorAll(".reading-tab");
+      const sections = document.querySelectorAll(".reading-section");
+
+      tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+          // activate tab
+          tabs.forEach(t => t.classList.remove("tab-active"));
+          tab.classList.add("tab-active");
+
+          // show matching section
+          const id = "tab-" + tab.dataset.tab;
+          sections.forEach(sec => {
+            sec.classList.toggle("hidden", sec.id !== id);
+          });
+        });
+      });
+    </script>
+
+    <script src="layout.js"></script>
+
+  </body>
+</html>

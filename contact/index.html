@@ -4,28 +4,28 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>home</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="preload" as="image" href="assets/bg1.webp"> <!-- 1-min is too grey -->
-    <link rel="preload" as="image" href="assets/bg2-min.webp">
-    <link rel="preload" as="image" href="assets/bg3-min.webp">
-    <link rel="preload" as="image" href="assets/bg4.webp">
-    <link rel="preload" as="image" href="assets/bg6-min.webp">
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="preload" as="image" href="/assets/bg1.webp"> <!-- 1-min is too grey -->
+    <link rel="preload" as="image" href="/assets/bg2-min.webp">
+    <link rel="preload" as="image" href="/assets/bg3-min.webp">
+    <link rel="preload" as="image" href="/assets/bg4.webp">
+    <link rel="preload" as="image" href="/assets/bg6-min.webp">
   </head>
 
  
    <body>
     <!-- photo -->
     <div class="desk-panel desk-photo">
-      <img class="photo" src="assets/me.webp" alt="Portrait" />
+      <img class="photo" src="/assets/me.webp" alt="Portrait" />
     </div>
 
     <!-- navbar -->
     <nav class="desk-panel desk-nav" aria-label="Site navigation">
-      <a href="home.html">about</a>
-      <a href="projects.html">projects</a>
-      <a href="interests.html">interests</a>
-      <a href="reading.html">reading</a>
-      <a href="contact.html">contact</a>
+      <a href="/home">about</a>
+      <a href="/projects">projects</a>
+      <a href="/interests">interests</a>
+      <a href="/reading">reading</a>
+      <a href="/contact">contact</a>
     </nav>
 
     <!-- bio -->
@@ -33,7 +33,7 @@
       <section class="desk-panel desk-bio">
         <div class="titlebar">
           <span class="title">contact</span>
-          <a class="titlebtn" href="home.html" aria-label="Back">李</a>
+          <a class="titlebtn" href="/home" aria-label="Back">李</a>
         </div>
 
         <div class="bio-content">
@@ -47,7 +47,7 @@
       </section>
     </main>
 
-    <script src="layout.js"></script>
+    <script src="/layout.js"></script>
 
     <script>
       // persist background chosen on landing
@@ -55,7 +55,7 @@
       if (bg) document.body.style.backgroundImage = `url('${bg}')`;
     </script>
 
-    <script src="drag.js"></script>
-    <script src="cursor_refresh.js"></script>
+    <script src="/drag.js"></script>
+    <script src="/cursor_refresh.js"></script>
   </body>
 </html>

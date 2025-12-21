@@ -21,11 +21,11 @@
       >
         <div class="titlebar">
           <span class="title" id="window-title"></span>
-          <button class="titlebtn" onclick="location.href='home.html'" type="button">李</button>
+          <button class="titlebtn" onclick="location.href='/home'" type="button">李</button>
         </div>
 
         <div style="padding: 12px 16px 16px;">
-          <a class="titlebtn enter-btn" href="home.html">see more</a>
+          <a class="titlebtn enter-btn" href="/home">see more</a>
         </div>
       </section>
     </main>
@@ -52,7 +52,7 @@
       }
 
       // background (no consecutive repeats) + persist for home.html
-      const backgrounds = ["assets/bg1.webp", "assets/bg2-min.webp", "assets/bg3-min.webp", "assets/bg4.webp", "assets/bg6-min.webp"];
+      const backgrounds = ["/assets/bg1.webp", "/assets/bg2-min.webp", "/assets/bg3-min.webp", "/assets/bg4.webp", "/assets/bg6-min.webp"];
       const bg = pickNonRepeating("last_bg", backgrounds);
       if (bg) {
         document.body.style.backgroundImage = `url('${bg}')`;

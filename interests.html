@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>interests</title>
     <link rel="stylesheet" href="styles.css" />
-    <link rel="preload" as="image" href="assets/bg1.webp"> <!-- 1-min is too grey -->
+    <link rel="preload" as="image" href="assets/bg1.webp">
     <link rel="preload" as="image" href="assets/bg2-min.webp">
     <link rel="preload" as="image" href="assets/bg3-min.webp">
     <link rel="preload" as="image" href="assets/bg4.webp">
     <link rel="preload" as="image" href="assets/bg6-min.webp">
   </head>
 
-  <body>
+  <body class="interests-page">
     <!-- photo -->
     <div class="desk-panel desk-photo">
       <img class="photo" src="assets/me.webp" alt="Portrait" />
     </div>
 
     <!-- navbar -->
-    <nav class="desk-panel desk-nav" aria-label="Site navigation">
+    <nav class="desk-panel desk-nav">
       <a href="home.html">about</a>
       <a href="projects.html">projects</a>
       <a href="interests.html">interests</a>
@@ -27,111 +27,98 @@
       <a href="contact.html">contact</a>
     </nav>
 
-    <!-- interests -->
-    <main class="desk-center">
-        <section class="desk-panel desk-bio projects-window" style="width: 760px; max-width: 92vw;">
+    <!-- CASCADING WINDOWS -->
+    <main class="desk-center" style="transform: none;">
+      <!-- Window 1 -->
+      <section class="desk-panel cascade-window win-a">
         <div class="titlebar">
-          <span class="title">interests</span>
-          <a class="titlebtn" href="home.html" aria-label="Back">李</a>
+          <span class="title">debate</span>
+          <a class="titlebtn" href="home.html">李</a>
         </div>
+        <div class="cascade-body">
+          <p>[placeholder text I’ll fill out later]</p>
+        </div>
+      </section>
 
-        <div class="project-stack">
-          <section class="panel">
-            <div class="titlebar">
-              <span class="title">robot dog basketball launcher</span>
-              <span class="spacer"></span>
-            </div>
-            <div class="project-content">
-              <p>[one-line description]</p>
-            </div>
-          </section>
+      <!-- Window 2 -->
+      <section class="desk-panel cascade-window win-b">
+        <div class="titlebar">
+          <span class="title">vc</span>
+          <a class="titlebtn" href="home.html">李</a>
+        </div>
+        <div class="cascade-body">
+          <p>[placeholder text I’ll fill out later]</p>
+        </div>
+      </section>
 
-          <section class="panel">
-            <div class="titlebar">
-              <span class="title">sensor fusion stack</span>
-              <span class="spacer"></span>
-            </div>
-            <div class="project-content">
-              <p>[one-line description]</p>
-            </div>
-          </section>
-
-          <section class="panel">
-            <div class="titlebar">
-              <span class="title">embedded systems tools</span>
-              <span class="spacer"></span>
-            </div>
-            <div class="project-content">
-              <p>[one-line description]</p>
-            </div>
-          </section>
-
-          <section class="panel">
-            <div class="titlebar">
-              <span class="title">embedded systems tools</span>
-              <span class="spacer"></span>
-            </div>
-            <div class="project-content">
-              <p>[one-line description]</p>
-            </div>
-          </section>
-
-          <section class="panel">
-            <div class="titlebar">
-              <span class="title">embedded systems tools</span>
-              <span class="spacer"></span>
-            </div>
-            <div class="project-content">
-              <p>[one-line description]</p>
-            </div>
-          </section>
-
-          <section class="panel">
-            <div class="titlebar">
-              <span class="title">embedded systems tools</span>
-              <span class="spacer"></span>
-            </div>
-            <div class="project-content">
-              <p>[one-line description]</p>
-            </div>
-          </section>
-
-          <section class="panel">
-            <div class="titlebar">
-              <span class="title">embedded systems tools</span>
-              <span class="spacer"></span>
-            </div>
-            <div class="project-content">
-              <p>[one-line description]</p>
-            </div>
-          </section>
-
-          <section class="panel">
-            <div class="titlebar">
-              <span class="title">embedded systems tools</span>
-              <span class="spacer"></span>
-            </div>
-            <div class="project-content">
-              <p>[one-line description]</p>
-            </div>
-          </section>
-
-          <section class="panel">
-            <div class="titlebar">
-              <span class="title">embedded systems tools</span>
-              <span class="spacer"></span>
-            </div>
-            <div class="project-content">
-              <p>[one-line description]</p>
-            </div>
-          </section>
+      <!-- Window 3 -->
+      <section class="desk-panel cascade-window win-c">
+        <div class="titlebar">
+          <span class="title">photography</span>
+          <a class="titlebtn" href="home.html">李</a>
+        </div>
+        <div class="cascade-body">
+          <p>[placeholder text I’ll fill out later]</p>
         </div>
       </section>
     </main>
 
-    <script>
+        <script>
+      // restore background
       const bg = localStorage.getItem("current_bg");
-      if (bg) document.body.style.backgroundImage = `url('${bg}')`;
+      if (bg) {
+        document.body.style.backgroundImage = `url('${bg}')`;
+      }
+
+      const windows = document.querySelectorAll(".cascade-window");
+      let topZ = 10;
+      let draggingWin = null;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      function onMouseMove(e) {
+        if (!draggingWin) return;
+        draggingWin.style.left = (e.clientX - offsetX) + "px";
+        draggingWin.style.top  = (e.clientY - offsetY) + "px";
+      }
+
+      function onMouseUp() {
+        draggingWin = null;
+        document.removeEventListener("mousemove", onMouseMove);
+        document.removeEventListener("mouseup", onMouseUp);
+      }
+
+      windows.forEach(win => {
+        const bar = win.querySelector(".titlebar");
+        if (!bar) return;
+
+        // 1) CLICK ANYWHERE ON WINDOW → BRING TO FRONT
+        win.addEventListener("mousedown", () => {
+          topZ += 1;
+          win.style.zIndex = topZ;
+        });
+
+        // 2) DRAG ONLY FROM TITLEBAR
+        bar.style.cursor = "move";
+
+        bar.addEventListener("mousedown", (e) => {
+          const rect = win.getBoundingClientRect();
+          offsetX = e.clientX - rect.left;
+          offsetY = e.clientY - rect.top;
+          draggingWin = win;
+
+          document.addEventListener("mousemove", onMouseMove);
+          document.addEventListener("mouseup", onMouseUp);
+          e.preventDefault(); // avoid text selection while dragging
+        });
+      });
     </script>
+  </body>
+</html>
+
+  </body>
+</html>
+
+
   </body>
 </html>

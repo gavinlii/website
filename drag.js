@@ -1,13 +1,22 @@
-// drag.js (desktop + mobile)
+// drag.js — window manager (desktop + mobile), smooth + clamped + no jump
 
 let topZ = 10;
 
 let draggingWin = null;
+let activePointerId = null;
+
+// Offset from pointer to window's top-left (in px, viewport coords)
 let offsetX = 0;
 let offsetY = 0;
 
-let activePointerId = null;
-let captureEl = null;
+// Base (frozen) top/left in px; we drag using transform deltas from this base
+let baseLeft = 0;
+let baseTop = 0;
+
+// rAF throttling
+let rafPending = false;
+let lastClientX = 0;
+let lastClientY = 0;
 
 function bringToFront(win) {
   topZ += 1;
@@ -17,48 +26,76 @@ function bringToFront(win) {
 function promoteToBodyAndFreeze(win) {
   const rect = win.getBoundingClientRect();
 
-  // avoid transformed-parent issues by moving to body
+  // Move to <body> so transformed parents can't distort "fixed"
   if (win.parentElement !== document.body) {
     document.body.appendChild(win);
   }
 
-  win.style.position = "fixed";
-  win.style.left = rect.left + "px";
-  win.style.top = rect.top + "px";
+  baseLeft = rect.left;
+  baseTop = rect.top;
 
-  // clear layout props that can cause jumps
+  win.style.position = "fixed";
+  win.style.left = baseLeft + "px";
+  win.style.top = baseTop + "px";
+
+  // Reset layout props that can cause jumps
   win.style.right = "auto";
   win.style.bottom = "auto";
   win.style.margin = "0";
-  win.style.transform = "none";
+  win.style.transform = "translate3d(0px, 0px, 0px)";
 }
 
-function clampAndMove(clientX, clientY) {
-  if (!draggingWin) return;
+function clampPosition(targetLeft, targetTop) {
+  if (!draggingWin) return { left: targetLeft, top: targetTop };
 
   const winRect = draggingWin.getBoundingClientRect();
   const vw = window.innerWidth;
   const vh = window.innerHeight;
 
-  let newLeft = clientX - offsetX;
-  let newTop = clientY - offsetY;
-
-  // keep ~40px visible horizontally
+  // Horizontal: keep at least ~40px visible
   const minLeft = -winRect.width + 40;
   const maxLeft = vw - 40;
 
-  // keep titlebar reachable vertically
+  // Vertical: keep titlebar reachable
   const titlebar = draggingWin.querySelector(".titlebar");
   const barHeight = titlebar ? titlebar.offsetHeight : 32;
 
   const minTop = 0;
   const maxTop = vh - barHeight;
 
-  newLeft = Math.min(Math.max(newLeft, minLeft), maxLeft);
-  newTop = Math.min(Math.max(newTop, minTop), maxTop);
+  const left = Math.min(Math.max(targetLeft, minLeft), maxLeft);
+  const top = Math.min(Math.max(targetTop, minTop), maxTop);
 
-  draggingWin.style.left = newLeft + "px";
-  draggingWin.style.top = newTop + "px";
+  return { left, top };
+}
+
+function applyDrag(clientX, clientY) {
+  if (!draggingWin) return;
+
+  // desired new top/left in viewport px
+  const desiredLeft = clientX - offsetX;
+  const desiredTop = clientY - offsetY;
+
+  const { left, top } = clampPosition(desiredLeft, desiredTop);
+
+  // move using GPU transform for smoothness
+  const dx = left - baseLeft;
+  const dy = top - baseTop;
+
+  draggingWin.style.transform = `translate3d(${dx}px, ${dy}px, 0px)`;
+}
+
+function scheduleDrag(clientX, clientY) {
+  lastClientX = clientX;
+  lastClientY = clientY;
+
+  if (rafPending) return;
+  rafPending = true;
+
+  requestAnimationFrame(() => {
+    rafPending = false;
+    applyDrag(lastClientX, lastClientY);
+  });
 }
 
 function startDrag(win, handleEl, clientX, clientY, pointerId = null) {
@@ -73,88 +110,104 @@ function startDrag(win, handleEl, clientX, clientY, pointerId = null) {
   document.body.classList.add("dragging");
 
   activePointerId = pointerId;
-  captureEl = handleEl;
 
-  // don't crash if pointer capture doesn' work
-  if (pointerId !== null && captureEl && captureEl.setPointerCapture) {
+  // Capture pointer so drag continues even if finger/mouse leaves titlebar
+  if (pointerId !== null && handleEl && handleEl.setPointerCapture) {
     try {
-      captureEl.setPointerCapture(pointerId);
-    } catch (_) {}
+      handleEl.setPointerCapture(pointerId);
+    } catch (_) {
+      // ignore
+    }
   }
 }
 
+function commitTransformToLeftTop(win) {
+  const tr = getComputedStyle(win).transform;
+  if (!tr || tr === "none") return;
+
+  // Parse DOMMatrix (supported in modern browsers)
+  const m = new DOMMatrixReadOnly(tr);
+
+  const committedLeft = baseLeft + m.m41;
+  const committedTop = baseTop + m.m42;
+
+  win.style.transform = "translate3d(0px, 0px, 0px)";
+  win.style.left = committedLeft + "px";
+  win.style.top = committedTop + "px";
+
+  // Update base for subsequent drags
+  baseLeft = committedLeft;
+  baseTop = committedTop;
+}
+
 function stopDrag() {
+  if (draggingWin) {
+    commitTransformToLeftTop(draggingWin);
+  }
+
   draggingWin = null;
   activePointerId = null;
-  captureEl = null;
   document.body.classList.remove("dragging");
 }
 
-/*pointer events path]*/
-const supportsPointer = "PointerEvent" in window;
+/* bring to front: click/tap anywhere on a window */
+document.addEventListener("pointerdown", (e) => {
+  const win = e.target.closest(".desk-panel");
+  if (!win) return;
+  bringToFront(win);
+});
 
-if (supportsPointer) {
-  document.addEventListener(
-    "pointerdown",
-    (e) => {
-      const win = e.target.closest(".desk-panel");
-      if (!win) return;
-
-      // click anywhere -> bring to front
-      bringToFront(win);
-
-      // drag only from titlebar, excluding links/buttons
-      const bar = e.target.closest(".titlebar");
-      if (!bar) return;
-      if (e.target.closest("a, button")) return;
-
-      startDrag(win, bar, e.clientX, e.clientY, e.pointerId);
-      e.preventDefault(); // only when dragging
-    },
-    { passive: false }
-  );
-
-  window.addEventListener(
-    "pointermove",
-    (e) => {
-      if (!draggingWin) return;
-      if (activePointerId !== null && e.pointerId !== activePointerId) return;
-      clampAndMove(e.clientX, e.clientY);
-    },
-    { passive: true }
-  );
-
-  window.addEventListener("pointerup", (e) => {
-    if (activePointerId !== null && e.pointerId !== activePointerId) return;
-    stopDrag();
-  });
-
-  window.addEventListener("pointercancel", (e) => {
-    if (activePointerId !== null && e.pointerId !== activePointerId) return;
-    stopDrag();
-  });
-}
-
-/* mouse for desktop */
-if (!supportsPointer) {
-  document.addEventListener("mousedown", (e) => {
-    const win = e.target.closest(".desk-panel");
-    if (!win) return;
-
-    bringToFront(win);
-
+/* drag start: only from titlebar, NOT on buttons/links */
+document.addEventListener(
+  "pointerdown",
+  (e) => {
     const bar = e.target.closest(".titlebar");
     if (!bar) return;
+
     if (e.target.closest("a, button")) return;
 
-    startDrag(win, bar, e.clientX, e.clientY, null);
+    const win = bar.closest(".desk-panel");
+    if (!win) return;
+
+    startDrag(win, bar, e.clientX, e.clientY, e.pointerId);
+
     e.preventDefault();
-  });
+  },
+  { passive: false }
+);
 
-  window.addEventListener("mousemove", (e) => {
+/* Drag move (pointer): smooth via rAF */
+window.addEventListener(
+  "pointermove",
+  (e) => {
     if (!draggingWin) return;
-    clampAndMove(e.clientX, e.clientY);
-  });
+    if (activePointerId !== null && e.pointerId !== activePointerId) return;
+    scheduleDrag(e.clientX, e.clientY);
+  },
+  { passive: true }
+);
 
-  window.addEventListener("mouseup", stopDrag);
-}
+window.addEventListener("pointerup", (e) => {
+  if (!draggingWin) return;
+  if (activePointerId !== null && e.pointerId !== activePointerId) return;
+  stopDrag();
+});
+
+window.addEventListener("pointercancel", (e) => {
+  if (!draggingWin) return;
+  if (activePointerId !== null && e.pointerId !== activePointerId) return;
+  stopDrag();
+});
+
+/* Touch fallback: prevents pull-to-refresh on iOS during drag
+   (even when Pointer Events exist, this helps Safari)
+*/
+window.addEventListener(
+  "touchmove",
+  (e) => {
+    if (!draggingWin) return;
+    // If we're dragging, do not let the page scroll / refresh
+    e.preventDefault();
+  },
+  { passive: false }
+);

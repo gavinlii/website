@@ -7,14 +7,14 @@
 
 a,
 button {
-  cursor: url("cursorpack/hand.cur"), default;
+  cursor: url("cursorpack/hand.cur"), hand;
 }
 
 /* text selection */
 p,
 h1, h2, h3,
 span {
-  cursor: url("cursorpack/text.cur"), default;
+  cursor: url("cursorpack/text.cur"), text;
 }
 
 html, body {
@@ -60,7 +60,6 @@ body{
 
 /* title bar for bio panel */
 .titlebar{
-  cursor: move;
   user-select: none;
   display: flex;
   align-items: center;
@@ -89,6 +88,8 @@ body{
   color: #000;
   text-decoration: none;
   font-weight: normal;
+
+  cursor: url("cursorpack/hand.cur"), pointer !important;
 
   padding: 1px 4px;
 
@@ -148,6 +149,7 @@ body{
   line-height: 1.2;
   color: #000;
   text-decoration: none;
+  cursor: url("cursorpack/hand.cur"), pointer;
 }
 
 .desk-nav a:hover{
@@ -382,17 +384,11 @@ body{
 /* while dragging, force cursor + prevent selection everywhere */
 body.dragging,
 body.dragging * {
-  cursor: url("cursorpack/openhand.cur"), move;
+  cursor: url("cursorpack/dnd-move.cur"), grabbing;
   user-select: none !important;
 }
 
 /* titlebar always shows move cursor */
-.titlebar { cursor: url("cursorpack/openhand.cur"), move; }
-
-.titlebar a,
-.titlebar button {
-  cursor: url("cursorpack/hand.cur"), move;
-}
-
+.titlebar { cursor: url("cursorpack/openhand.cur"), pointer; }
 
 

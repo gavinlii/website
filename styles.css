@@ -5,6 +5,10 @@
   cursor: url("cursorpack/arrow.cur"), default;
 }
 
+html, body {
+  cursor: url("cursorpack/arrow.cur"), default;
+}
+
 a,
 button {
   cursor: url("cursorpack/hand.cur"), hand;

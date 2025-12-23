@@ -161,7 +161,7 @@ body{
 }
 
 /* mobile: stack vertically when it gets tight */
-@media (max-width: 640px){
+@media (max-width: 550px){
   .desk-nav{
     flex-direction: column;
     align-items: flex-end;
@@ -181,7 +181,7 @@ body{
   position: relative;
   width: 420px;
   max-width: 92vw;
-  max-height: calc(100vh - 240px); /* leaves margin top/bottom */
+  max-height: calc(100vh - 280px); /* leaves margin top/bottom */
   overflow-y: auto;
 }
 
@@ -382,7 +382,7 @@ body{
 
 .reroll-btn{
   position: fixed;
-  right: 18px;
+  left: 18px;
   bottom: 18px;
   z-index: 9999;
   padding: 0px 7px 3px;

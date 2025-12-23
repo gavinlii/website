@@ -453,4 +453,69 @@ body:not(.dragging) .desk-panel .panel .titlebar {
   cursor: url("cursorpack/arrow.cur"), default;
 }
 
+.project-video {
+  max-width: 60%;      /* 👈 controls size */
+  margin: 12px auto;   /* center horizontally */
+}
 
+.project-video video {
+  width: 50%;
+  display: block;
+  border: 2px solid #404040;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+
+}
+
+/* -------------------------
+   SUBHEADING (always visible)
+-------------------------- */
+.project-header {
+  font-weight: bold;
+  padding: 6px 10px;
+  cursor: url("cursorpack/hand.cur"), pointer;
+  background: #adadad;
+
+  /* Win95 border (closed state) */
+  border: 2px solid #404040;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-right-color: #393939;
+  border-bottom-color: #393939;
+}
+
+/* -------------------------
+   CONTENT (hidden by default)
+-------------------------- */
+.project-body {
+  display: none;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  background: #c0c0c0;
+}
+
+/* -------------------------
+   OPEN STATE
+-------------------------- */
+.project-item.open {
+  /* Win95 border wraps header + body */
+  border: 2px solid #404040;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-right-color: #393939;
+  border-bottom-color: #393939;
+}
+
+/* When open, remove header’s own border so we don't double-frame */
+.project-item.open .project-header {
+  border: none;
+  border-bottom: 2px solid #808080; /* divider line */
+}
+
+/* Show content */
+.project-item.open .project-body {
+  display: block;
+}

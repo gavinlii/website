@@ -382,7 +382,7 @@ body{
 
 .reroll-btn{
   position: fixed;
-  left: 18px;
+  right: 18px;
   bottom: 18px;
   z-index: 9999;
   padding: 0px 7px 3px;

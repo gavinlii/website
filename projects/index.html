@@ -10,6 +10,7 @@
     <link rel="preload" as="image" href="/assets/bg3-min.webp">
     <link rel="preload" as="image" href="/assets/bg4.webp">
     <link rel="preload" as="image" href="/assets/bg6-min.webp">
+    <link rel="preload" as="image" href="/assets/me1.png">
   </head>
 
   <body>
@@ -25,102 +26,42 @@
 
     <!-- projects -->
     <main class="desk-center">
-        <section class="desk-panel desk-bio projects-window" style="width: 760px; max-width: 92vw;">
+        <section class="desk-panel desk-bio projects-window" style="width: 860px; max-width: 92vw;">
         <div class="titlebar">
           <span class="title">projects</span>
           <a class="titlebtn" href="/home" aria-label="Back">李</a>
         </div>
 
         <div class="project-stack">
-          <section class="panel">
-            <div class="titlebar">
-              <span class="title">AirBUD: basketball utility dog</span>
-              <span class="spacer"></span>
+          <div class="project-item">
+            <div class="project-header">
+              AirBUD: basketball utility (robot) dog
             </div>
-            <div class="project-content">
-              <p>[one-line description]</p>
-            </div>
-          </section>
 
-          <section class="panel">
-            <div class="titlebar">
-              <span class="title">Goodhands</span>
-              <span class="spacer"></span>
-            </div>
-            <div class="project-content">
-              <p>[one-line description]</p>
-            </div>
-          </section>
+            <div class="project-body">
+              <p> in short: I shot foam balls at Deepmind researchers and Apple's head of design (IMAGE). </p>
+              <p> in late 2025, some friends and I received access to Pupper, Stanford's open-source robot dog. as a die-hard Warriors fan, I thought it'd be awesome to turn Pupper into a mini robo-Stephen Curry. </p>
+              <p> our original idea was to mount a Nerf gun to Pupper's back, use a YOLO model to recognize the hoop, pitch, and fire. however, we quickly realized there was no commercially available Nerf gun that could be electronically controlled and within our size requirements. (ATTACH IMAGE) </p>
+              <p> we had to build our own. as far as we knew, this hadn't been done on a quadruped outside of defense tech.  </p>
+              <p> we went through three launcher iterations before deciding on a flywheel design based around Nerf's 0.8" Rival foam balls. due to budget constraints (we were broke), we kept supplies to an absolute minimum: 2 DC motors, a feeding servo, foam model airplane wheels, and electronics from our EE makerspace. (CAD PHOTO) </p>
+              <p> (ELECTRONIC SPECS + CIRCUIT PHOTO, YOLO + COCO, PITCH ANGLE, DEMO)</p>
 
-          <section class="panel">
-            <div class="titlebar">
-              <span class="title">Laoban: 升级 RL game engine</span>
-              <span class="spacer"></span>
+              <div class="project-video">
+                <video autoplay muted loop playsinline preload="auto">
+                  <source src="/assets/pupper_shooting.mp4" type="video/mp4">
+                </video>
+              </div>
             </div>
-            <div class="project-content">
-              <p>[one-line description]</p>
+          </div>
+          <div class="project-item">
+            <div class="project-header">
+              Goodhands: RISC-V/C vital sign monitor
             </div>
-          </section>
 
-          <section class="panel">
-            <div class="titlebar">
-              <span class="title">Weather matrix</span>
-              <span class="spacer"></span>
+            <div class="project-body">
+              <p> desc </p>
             </div>
-            <div class="project-content">
-              <p>[one-line description]</p>
-            </div>
-          </section>
-
-          <section class="panel">
-            <div class="titlebar">
-              <span class="title">embedded systems tools</span>
-              <span class="spacer"></span>
-            </div>
-            <div class="project-content">
-              <p>[one-line description]</p>
-            </div>
-          </section>
-
-          <section class="panel">
-            <div class="titlebar">
-              <span class="title">embedded systems tools</span>
-              <span class="spacer"></span>
-            </div>
-            <div class="project-content">
-              <p>[one-line description]</p>
-            </div>
-          </section>
-
-          <section class="panel">
-            <div class="titlebar">
-              <span class="title">embedded systems tools</span>
-              <span class="spacer"></span>
-            </div>
-            <div class="project-content">
-              <p>[one-line description]</p>
-            </div>
-          </section>
-
-          <section class="panel">
-            <div class="titlebar">
-              <span class="title">embedded systems tools</span>
-              <span class="spacer"></span>
-            </div>
-            <div class="project-content">
-              <p>[one-line description]</p>
-            </div>
-          </section>
-
-          <section class="panel">
-            <div class="titlebar">
-              <span class="title">embedded systems tools</span>
-              <span class="spacer"></span>
-            </div>
-            <div class="project-content">
-              <p>[one-line description]</p>
-            </div>
-          </section>
+          </div>
         </div>
       </section>
     </main>
@@ -133,7 +74,17 @@
     <script src="/layout.js"></script>
     <script src="/drag.js"></script>
     <script src="/cursor_refresh.js"></script>
+    <script>
+      document.addEventListener("click", (e) => {
+        const header = e.target.closest(".project-header");
+        if (!header) return;
 
+        const item = header.closest(".project-item");
+        if (!item) return;
+
+        item.classList.toggle("open");
+      });
+    </script>   
 
   </body>
 </html>

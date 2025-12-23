@@ -174,14 +174,14 @@ body{
   min-height: 100%;
   display: grid;
   place-items: center;
-  transform: translateY(-70px);
+  transform: translateY(-40px);
 }
 
 .desk-bio{
   position: relative;
   width: 420px;
   max-width: 92vw;
-  max-height: calc(100vh - 280px); /* leaves margin top/bottom */
+  max-height: calc(100vh - 310px); /* leaves margin top/bottom */
   overflow-y: auto;
 }
 

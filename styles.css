@@ -453,14 +453,14 @@ body:not(.dragging) .desk-panel .panel .titlebar {
   cursor: url("cursorpack/arrow.cur"), default;
 }
 
-.project-video {
-  max-width: 60%;      /* 👈 controls size */
-  margin: 12px auto;   /* center horizontally */
-}
+
 
 .project-video video {
+  min-width: 120px;
+  max-width: 300px;
   width: 50%;
   display: block;
+  margin: 12px auto;
   border: 2px solid #404040;
   border-top-color: #ffffff;
   border-left-color: #ffffff;
@@ -519,3 +519,17 @@ body:not(.dragging) .desk-panel .panel .titlebar {
 .project-item.open .project-body {
   display: block;
 }
+
+.project-body img {
+  min-width: 120px;
+  max-width: 350px;
+  width: 30%;
+  display: block;
+  margin: 12px auto;
+  border: 2px solid #404040;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+}
+

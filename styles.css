@@ -183,6 +183,8 @@ body{
   max-width: 92vw;
   max-height: calc(100vh - 310px); /* leaves margin top/bottom */
   overflow-y: auto;
+  resize: both;
+  overflow: auto;
 }
 
 .bio-content{
@@ -356,21 +358,29 @@ body{
 .cascade-window.win-a {
   top: 17vh;
   left: 7vw;
+  resize: both;
+  overflow: auto;
 }
 
 .cascade-window.win-b {
   top: 21vh;
   left: 10.5vw;
+  resize: both;
+  overflow: auto;
 }
 
 .cascade-window.win-c {
   top: 25vh;
   left: 14vw;
+  resize: both;
+  overflow: auto;
 }
 
 .cascade-window.win-d {
   top: 29vh;
   left: 17.5vw;
+  resize: both;
+  overflow: auto;
 }
 
 /* interior */

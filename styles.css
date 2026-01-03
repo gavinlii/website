@@ -181,10 +181,16 @@ body{
   position: relative;
   width: 420px;
   max-width: 92vw;
-  max-height: calc(100vh - 260px); /* leaves margin top/bottom */
+  max-height: calc(100vh - 30vh); /* leaves margin top/bottom */
   overflow-y: auto;
   resize: both;
   overflow: auto;
+}
+
+@media (max-width: 550px) {
+  .desk-bio {
+    max-height: calc(100vh - 34vh);
+  }
 }
 
 .bio-content{
@@ -232,10 +238,6 @@ body{
 
 .panel{
   background: #cfcfcf;
-}
-
-.projects-window{
-  margin-top: 250px;
 }
 
 .projects-window > .titlebar{ /*keepwindow titlebar sticky */
@@ -292,8 +294,22 @@ body{
   border-left: 2px solid var(--win-darker);
 }
 
-.desk-center .projects-window,
-.reading-win {
+.desk-center .projects-window {
+  position: absolute;
+  top: 26vh;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+
+
+@media (max-width: 550px){
+  .desk-center .projects-window, {
+    top: 30vh;
+  }
+}
+
+.reading-window {
   position: absolute;
   top: 30vh;
   left: 0;
@@ -393,7 +409,7 @@ body{
 .reroll-btn{
   position: fixed;
   right: 18px;
-  bottom: 18px;
+  bottom: 16px;
   z-index: 9999;
   padding: 0px 7px 3px;
   font-size: 22px

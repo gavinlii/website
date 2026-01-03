@@ -27,7 +27,7 @@ html, body {
 
 /* system palette */
 :root{
-  --sys: "MS Sans Serif", "Microsoft Sans Serif", Tahoma, Verdana, sans-serif;
+  --sys: "MS Sans Serif", "Microsoft Sans Serif", Helvetica, Arial, sans-serif;
 
   --win-gray: #c0c0c0;
   --win-light: #ffffff;
@@ -124,8 +124,8 @@ body{
 }
 
 .photo{
-  max-width: 95px;
-  max-height: 95px;
+  max-width: 100px;
+  max-height: 100px;
   display: block;
 
   border: 2px solid var(--win-darker);
@@ -181,7 +181,7 @@ body{
   position: relative;
   width: 420px;
   max-width: 92vw;
-  max-height: calc(100vh - 310px); /* leaves margin top/bottom */
+  max-height: calc(100vh - 260px); /* leaves margin top/bottom */
   overflow-y: auto;
   resize: both;
   overflow: auto;
@@ -467,7 +467,7 @@ body:not(.dragging) .desk-panel .panel .titlebar {
 
 .project-video video {
   min-width: 120px;
-  max-width: 300px;
+  max-width: 390px;
   width: 50%;
   display: block;
   margin: 12px auto;
@@ -532,7 +532,7 @@ body:not(.dragging) .desk-panel .panel .titlebar {
 
 .project-body img {
   min-width: 120px;
-  max-width: 350px;
+  max-width: 450px;
   width: 30%;
   display: block;
   margin: 12px auto;
@@ -542,4 +542,3 @@ body:not(.dragging) .desk-panel .panel .titlebar {
   border-right-color: #808080;
   border-bottom-color: #808080;
 }
-

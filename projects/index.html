@@ -42,11 +42,16 @@
             <div class="project-body">
               <p> in short: I shot Deepmind researchers and Apple's head of design (with their consent). </p>
               <img src="/assets/robot.jpg" class="project-video">
-              <p> in late 2025, some friends and I received access to Pupper, Stanford's open-source robot dog. as a die-hard Warriors fan, I thought it'd be awesome to turn Pupper into a mini robo-Stephen Curry. </p>
-              <p> our original idea was to mount a Nerf gun to Pupper's back, use a YOLO model to recognize the hoop, pitch, and fire. however, we quickly realized there was no commercially available Nerf gun that could be electronically controlled and within our size requirements. (ATTACH IMAGE) </p>
+              <p> in late 2025, some friends and I got access to Pupper, Stanford's open-source robot dog. as a die-hard Warriors fan, I thought it'd be awesome to turn Pupper into a mini robo-Stephen Curry. </p>
+              <p> our original idea was to mount a Nerf gun to Pupper's back, use a YOLO model to recognize the hoop, pitch, and fire. however, we quickly realized there was no commercially available Nerf gun that could be electronically controlled and within our size requirements.</p>
               <p> we had to build our own. as far as we knew, this hadn't been done on a quadruped outside of defense.  </p>
-              <p> we went through three launcher iterations before deciding on a flywheel design based around Nerf's 0.8" Rival foam balls. due to budget constraints (we were broke), we kept supplies to an absolute minimum: 2 DC motors, a feeding servo, foam model airplane wheels, and electronics from our EE makerspace. (CAD PHOTO) </p>
-              <p> (ELECTRONIC SPECS + CIRCUIT PHOTO, YOLO + COCO, PITCH ANGLE, DEMO)</p>
+              <img src="/assets/launcher.png" class="project-video">
+              <p> we went through three launcher iterations before deciding on a flywheel design based around Nerf's 0.8" Rival foam balls. due to budget constraints (we were broke), we kept supplies to an absolute minimum: 2 DC motors, a feeding servo, and foam model airplane wheels. </p>
+              <p> we also raided half the makerspaces on campus for electronic parts and wiring. we didn't have any boost converters to amplify our 3.3v input signal (our transistors required driving 5v to the gate), but an Arduino Nano ended up doing the trick:</p>
+              <img src="/assets/circuit.png" class="project-video">
+              <p> there were a few design choices we had to consider here. first, we had to wire everything without flyback diodes - at the time we were making this, no student space had any compatible diodes available (you can see our crashout about this on our diagram). second, we had to deal with floating gate voltages that caused our launcher to behave erratically. this was an easier fix;  </p>
+              <p> somewhere along the way, our goal shifted from shooting <i> into </i> a hoop to shooting <i> at </i> a target. it also helped that the launcher packed a solid punch: (VIDEO)</p>
+              <p> (YOLO + COCO + PITCH /PROGRAMMING, DEMO)</p>
 
               <div class="project-video">
                 <video autoplay muted loop playsinline preload="auto">

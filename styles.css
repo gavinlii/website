@@ -475,9 +475,9 @@ body:not(.dragging) .desk-panel .panel .titlebar {
 
 
 
-.project-video video {
+.project-video image, video {
   min-width: 120px;
-  max-width: 390px;
+  max-width: 550px;
   width: 50%;
   display: block;
   margin: 12px auto;
@@ -544,7 +544,7 @@ body:not(.dragging) .desk-panel .panel .titlebar {
 .project-body img {
   min-width: 120px;
   max-width: 450px;
-  width: 30%;
+  width: 50%;
   display: block;
   margin: 12px auto;
   border: 2px solid #404040;

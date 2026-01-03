@@ -181,7 +181,7 @@ body{
   position: relative;
   width: 420px;
   max-width: 92vw;
-  max-height: calc(100vh - 30vh); /* leaves margin top/bottom */
+  max-height: calc(100vh - 29vh); /* leaves margin top/bottom */
   overflow-y: auto;
   resize: both;
   overflow: auto;
@@ -189,7 +189,7 @@ body{
 
 @media (max-width: 550px) {
   .desk-bio {
-    max-height: calc(100vh - 34vh);
+    max-height: calc(100vh - 33vh);
   }
 }
 
@@ -304,7 +304,7 @@ body{
 
 
 @media (max-width: 550px){
-  .desk-center .projects-window, {
+  .desk-center .projects-window {
     top: 30vh;
   }
 }

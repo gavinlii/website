@@ -189,7 +189,7 @@ body{
 
 @media (max-width: 550px) {
   .desk-bio {
-    max-height: calc(100vh - 33vh);
+    max-height: calc(100vh - 38vh);
   }
 }
 

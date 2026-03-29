@@ -27,7 +27,7 @@
 
     <!-- projects -->
     <main class="desk-center">
-        <section class="desk-panel desk-bio projects-window" style="width: 920px; max-width: 92vw;">
+        <section class="desk-panel desk-bio projects-window" style="width: 1100px; max-width: 92vw;">
         <div class="titlebar">
           <span class="title">projects</span>
           <a class="titlebtn" href="/home" aria-label="Back">李</a>
@@ -42,22 +42,74 @@
             <div class="project-body">
               <p> in short: I shot Deepmind researchers and Apple's head of design (with their consent). </p>
               <img src="/assets/robot.jpg" class="project-video">
-              <p> in late 2025, some friends and I got access to Pupper, Stanford's open-source robot dog. as a die-hard Warriors fan, I thought it'd be awesome to turn Pupper into a mini robo-Stephen Curry. </p>
+              <p> in late 2025, some friends and I got access to Pupper, Stanford's open-source robot dog. as a die-hard Warriors fan, I thought it'd be awesome to teach Pupper the basics of shooting a basketball. </p>
               <p> our original idea was to mount a Nerf gun to Pupper's back, use a YOLO model to recognize the hoop, pitch, and fire. however, we quickly realized there was no commercially available Nerf gun that could be electronically controlled and within our size requirements.</p>
-              <p> we had to build our own. as far as we knew, this hadn't been done on a quadruped outside of defense.  </p>
+              <p> we had to build our own. as far as we knew, this hadn't been done on a hobby quadruped.  </p>
               <img src="/assets/launcher.png" class="project-video">
               <p> we went through three launcher iterations before deciding on a flywheel design based around Nerf's 0.8" Rival foam balls. due to budget constraints (we were broke), we kept supplies to an absolute minimum: 2 DC motors, a feeding servo, and foam model airplane wheels. </p>
               <p> we also raided half the makerspaces on campus for electronic parts and wiring. we didn't have any boost converters to amplify our 3.3v input signal (our transistors required driving 5v to the gate), but an Arduino Nano ended up doing the trick:</p>
               <img src="/assets/circuit.png" class="project-video">
-              <p> there were a few design choices we had to consider here. first, we had to wire everything without flyback diodes - at the time we were making this, no student space had any compatible diodes available (you can see our crashout about this on our diagram). second, we had to deal with floating gate voltages that caused our launcher to behave erratically. this was an easier fix;  </p>
-              <p> somewhere along the way, our goal shifted from shooting <i> into </i> a hoop to shooting <i> at </i> a target. it also helped that the launcher packed a solid punch: (VIDEO)</p>
-              <p> (YOLO + COCO + PITCH /PROGRAMMING, DEMO)</p>
-
+              <p> there were a few important design choices we had to consider here. first, we had to wire everything without flyback diodes - at the time we were wiring our launcher, no makerspace had any compatible diodes available (you can see our crashout about this on our diagram). second, we had to deal with floating gate voltages that caused our launcher to behave erratically. this was an easier fix, albeit a lesson in the importance of pulldown resistors. </p>
+              <p> somewhere along the way, our goal shifted from shooting <i> into </i> a hoop to shooting <i> at </i> a target. to do this, we used the COCO dataset for YOLO object detection. since no library existed for 6DOF motion yet, we also had to train a 500,000,000 timestep RL policy to pitch airBUD to a desired angle. 
+              <p> it also helped that our launcher packed a solid punch: </p>
               <div class="project-video">
                 <video autoplay muted loop playsinline preload="auto">
                   <source src="/assets/pupper_shooting.mp4" type="video/mp4">
                 </video>
               </div>
+              <p> the time eventually came to demo. initially, we thought we'd show airBUD to a few students and researchers. instead, with the <i> NBA on NBC </i> theme playing in the background, we fired foam balls at the head of Tesla autopilot, Stuart Bowers, Deepmind researcher Jie Tan, robotics prof. Karen Liu, and 35 surprisingly excited elementary schoolers. </p>
+
+            </div>
+          </div>
+          <div class="project-item">
+            <div class="project-header">
+              sprout: mini robot microfarm
+            </div>
+
+            <div class="project-body">
+              <p> the idea for sprout came when I was sitting in my backyard over winter break, staring at a parched garden bed that hadn't been watered since I first left for college. 
+              <p> both of my parents have mobility challenges which make keeping our garden healthy difficult. so why not make a robot do it? </p>
+              <div class="project-image-row">
+                <img src="/assets/gardenbed.jpg">
+                <img src="/assets/botfinal.jpg">
+              </div>
+              <p> this turned into my team's project for Treehacks, Stanford's annual hackathon. originally, we thought a rover would be best, but quickly realized power demands made supplies prohibitively expensive. motion had to be bounded, which felt like a natural use case for a 3d-printer-style gantry. </p>
+              <p> after making some rough sketches and dimensioning everything out, we decided to full-send the only implementation that was financially feasible. with less than a week left, we spent 300 dollars on 2 industrial linear actuators on Ebay, courtesy of some sketchy guy from Fresno: </p>
+              <img src="/assets/actuators_floor.png" class="project-video">
+              <p> our final idea was ambitious but manageable: embed soil and temperature sensors in a dirt plot, feed that data to a 4B 4bit model edge-deployed on a Jetson Nano, and give the model actionable observability over the plot with a mounted camera and water pump. </p>
+              <p> we only had 36 hours to put everything together, and that meant needing to work in parallel. luckily, I was working with a dream team of MechE and CS guys who riveted aluminum and trained models while I soldered: </p>
+              <div class="project-image-row">
+                <img src="/assets/frame_cropped.png">
+                <img src="/assets/soldering_sprout.png">
+              </div>
+              <p> on the wiring side, we faced lots of unexpected challenges. first, the motors that came with the actuators didn't match spec, meaning I had to manually figure out torque and wiring on the fly. second, everything had to be kept isolated from the pumps and tubing, and we had to operate under the assumption that wiring could get wet at any moment. to minimize risk as best we could, we shrink-wrapped all soldering joints - a time-intensive but necessary step. finally, there was the preplanning: as the guy in charge of overall system design, I had to preorder any components we needed to ensure everything operated on the proper logic level and had the right drivers. in the end, this meant needing 3 separate power supplies: a high-current one for the actuator motors, and two separate supplies for the jetson, sensors, pumps, and other controllers. </p>
+              <p> even though we didn't have a working prototype until 20 minutes before the deadline, our demo went by without any issues. see a bit of here: </p>
+                            <div class="project-video">
+                <video autoplay muted loop playsinline preload="auto">
+                  <source src="/assets/bot_demo.mp4" type="video/mp4">
+                </video>
+              </div>
+              <p> despite being our first ever hackathon, we were winners of Nvidia's Edge AI track out of more than 200 teams (shoutout to Nvidia and ASUS for the DGX Spark, Jetson, monitor, and office visit :)). we had zero expectations coming in, and we were all incredibly surprised by what we could get done in less than 2 days of work. </p>
+              <img src="/assets/winners.jpeg" class="project-video">
+              <p> after the awards ceremony, our team ran a final tally: Markus ran 19 Cursor instances at once, Eric went 42 hours without sleep, and I soldered for 17 hours straight. none of us would have had it any other way.</p>
+            </div>
+          </div>
+          <div class="project-item">
+            <div class="project-header">
+              laoban: RL 5/10/K engine
+            </div>
+            <div class="project-body">
+              <p> laoban began as a running argument in my dorm room. my chinese international roommates taught me how to play 5/10/K at the start of the school year, and before long we were debating whether a bot could ever learn the game well enough to compete with real players. eventually, that turned into a bet: a sushi dinner said it couldn't. </p>              
+              <p> IMAGE </p>
+              <p> what sounded simple at first turned into a much deeper systems project. 5/10/K is easy to learn informally, but much harder to implement precisely. the rules interact in ways that make edge cases matter: straights have to be exactly 5 cards, bombs have their own ordering, point cards affect incentives throughout the hand, and legal actions depend heavily on the current board state. before I could even think about training an agent, I had to build the game engine itself in a way that was consistent, debuggable, and strict about move legality. </p>
+              <p> that meant writing the ruleset from scratch, generating all legal moves, handling hidden information, and building an environment that a policy could actually train in. a lot of the work was less about "AI" in the flashy sense and more about careful game design: deciding how to represent actions, how to encode state, how to handle endgame scoring correctly, and how to make sure the interface between the engine and the policy wasn't quietly introducing mistakes. </p>
+              <p> IMAGE </p>
+              <p> one of the biggest challenges was that strong play in 5/10/K depends on more than just the current move. there are longer-term tradeoffs around saving pairs, cashing point cards, preserving bombs, and managing hand shape for the endgame. because players do not have access to full information, the policy also had to learn under uncertainty rather than simply optimize from a perfect-information view of the game. getting that balance right took several rounds of redesign in both the engine and the training setup. </p>
+              <p> on the training side, I experimented with different policy structures, reward signals, evaluation setups, and heuristics for action selection. some versions looked promising in short tests but fell apart in actual play; others exposed bugs in the underlying rules or scoring logic that I hadn't caught earlier. a lot of progress came from repeated playtesting, reading logs carefully, and tightening the connection between what the agent was rewarded for and what actually leads to good decisions in game. </p>
+              <p> IMAGE </p>
+              <p> once the policy was stable enough, I built a playable GUI around the engine so I could test it directly against humans. that part ended up being just as useful as training itself: watching games in real time made it much easier to spot weak endgame behavior, awkward action encoding choices, and UI or rules issues that were easy to miss in raw logs. by the end, laoban had become less of a single model and more of a full stack for the game: rules engine, training environment, evaluation harness, and human playtest interface. </p>
+              <p> the project is still ongoing, but it has already been one of the most rewarding things I've built. it started as a bet over dinner and turned into a really interesting exercise in formalizing a messy real-world game, building reliable infrastructure around it, and learning how much work it takes to make an agent behave sensibly in a setting with hidden information and a lot of edge cases. </p>
+              <p> VIDEO </p>
             </div>
           </div>
           <div class="project-item">

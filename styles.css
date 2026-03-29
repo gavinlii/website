@@ -598,6 +598,11 @@ body:not(.dragging) .desk-panel .panel .titlebar {
   }
 }
 
+.laoban-btn {
+  left: 20px;
+  right: auto;
+}
+
 /* ensure hyperlinks always show the hand cursor on hover/focus */
 a:hover,
 a:focus,

@@ -47,7 +47,7 @@ body{
   color: #000;
 }
 
-/* desk panel — core primitive */
+/* desk panel Ã¢â‚¬â€ core primitive */
 .desk-panel{
   position: fixed;
   z-index: 2;
@@ -475,18 +475,24 @@ body:not(.dragging) .desk-panel .panel .titlebar {
 
 
 
-.project-video image, video {
-  min-width: 120px;
-  max-width: 550px;
-  width: 50%;
-  display: block;
+.project-video {
+  display: flex;
+  justify-content: center;
   margin: 12px auto;
+}
+
+.project-video video {
+  min-width: 120px;
+  max-width: 450px;
+  max-height: 475px;
+  width: auto;
+  height: auto;
+  display: block;
   border: 2px solid #404040;
   border-top-color: #ffffff;
   border-left-color: #ffffff;
   border-right-color: #808080;
   border-bottom-color: #808080;
-
 }
 
 /* -------------------------
@@ -530,7 +536,7 @@ body:not(.dragging) .desk-panel .panel .titlebar {
   border-bottom-color: #393939;
 }
 
-/* When open, remove header’s own border so we don't double-frame */
+/* When open, remove headerÃ¢â‚¬â„¢s own border so we don't double-frame */
 .project-item.open .project-header {
   border: none;
   border-bottom: 2px solid #808080; /* divider line */
@@ -543,8 +549,10 @@ body:not(.dragging) .desk-panel .panel .titlebar {
 
 .project-body img {
   min-width: 120px;
-  max-width: 450px;
-  width: 50%;
+  max-width: 400px;
+  max-height: 400px;
+  width: auto;
+  height: auto;
   display: block;
   margin: 12px auto;
   border: 2px solid #404040;
@@ -552,4 +560,40 @@ body:not(.dragging) .desk-panel .panel .titlebar {
   border-left-color: #ffffff;
   border-right-color: #808080;
   border-bottom-color: #808080;
+}
+
+.project-image-row {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  margin: 12px auto;
+}
+
+.project-image-row img {
+  min-width: 0;
+  width: calc(50% - 7px);
+  max-width: 320px;
+  max-height: 500px;
+  height: auto;
+  display: block;
+  margin: 0;
+  object-fit: contain;
+  border: 2px solid #404040;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+}
+
+@media (max-width: 700px) {
+  .project-image-row {
+    flex-wrap: wrap;
+  }
+
+  .project-image-row img {
+    width: 100%;
+    max-width: 450px;
+  }
 }

@@ -31,6 +31,23 @@ async function injectChrome() {
   document.body.insertAdjacentHTML("afterbegin", html);
 
   const rerollBtn = document.querySelector(".reroll-btn");
+  if (rerollBtn && !document.querySelector(".laoban-btn")) {
+    const laobanBtn = rerollBtn.cloneNode(true);
+
+    laobanBtn.classList.add("laoban-btn");
+    laobanBtn.removeAttribute("id");
+    laobanBtn.setAttribute("aria-label", "Open laoban.cards");
+    laobanBtn.setAttribute("title", "Open laoban.cards");
+    laobanBtn.textContent = "♠";
+
+    laobanBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.open("https://laoban.cards", "_blank", "noopener,noreferrer");
+    });
+
+    rerollBtn.insertAdjacentElement("afterend", laobanBtn);
+  }
+
   if (rerollBtn) {
     rerollBtn.addEventListener("click", () => {
       const current = localStorage.getItem("current_bg");

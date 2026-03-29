@@ -118,14 +118,14 @@ body{
 
 /* photo panel */
 .desk-photo{
-  top: 18px;
-  left: 18px;
+  top: 28px;
+  left: 28px;
   padding: 1px 1px;
 }
 
 .photo{
-  max-width: 100px;
-  max-height: 100px;
+  max-width: 130px;
+  max-height: 130px;
   display: block;
 
   border: 2px solid var(--win-darker);

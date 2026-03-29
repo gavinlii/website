@@ -70,7 +70,7 @@
               <p> the idea for sprout came when I was sitting in my backyard over winter break, staring at a parched garden bed that hadn't been watered since I first left for college. 
               <p> both of my parents have mobility challenges which make keeping our garden healthy difficult. so why not make a robot do it? </p>
               <div class="project-image-row">
-                <img src="/assets/gardenbed.jpg">
+                <img src="/assets/gardenbed_rotated.png">
                 <img src="/assets/botfinal.jpg">
               </div>
               <p> this turned into my team's project for Treehacks, Stanford's annual hackathon. originally, we thought a rover would be best, but quickly realized power demands made supplies prohibitively expensive. motion had to be bounded, which felt like a natural use case for a 3d-printer-style gantry. </p>
@@ -96,20 +96,19 @@
           </div>
           <div class="project-item">
             <div class="project-header">
-              laoban: RL 5/10/K engine
+              laoban: RL <i>5/10/K</i> engine
             </div>
             <div class="project-body">
-              <p> laoban began as a running argument in my dorm room. my chinese international roommates taught me how to play 5/10/K at the start of the school year, and before long we were debating whether a bot could ever learn the game well enough to compete with real players. eventually, that turned into a bet: a sushi dinner said it couldn't. </p>              
-              <p> IMAGE </p>
-              <p> what sounded simple at first turned into a much deeper systems project. 5/10/K is easy to learn informally, but much harder to implement precisely. the rules interact in ways that make edge cases matter: straights have to be exactly 5 cards, bombs have their own ordering, point cards affect incentives throughout the hand, and legal actions depend heavily on the current board state. before I could even think about training an agent, I had to build the game engine itself in a way that was consistent, debuggable, and strict about move legality. </p>
-              <p> that meant writing the ruleset from scratch, generating all legal moves, handling hidden information, and building an environment that a policy could actually train in. a lot of the work was less about "AI" in the flashy sense and more about careful game design: deciding how to represent actions, how to encode state, how to handle endgame scoring correctly, and how to make sure the interface between the engine and the policy wasn't quietly introducing mistakes. </p>
-              <p> IMAGE </p>
-              <p> one of the biggest challenges was that strong play in 5/10/K depends on more than just the current move. there are longer-term tradeoffs around saving pairs, cashing point cards, preserving bombs, and managing hand shape for the endgame. because players do not have access to full information, the policy also had to learn under uncertainty rather than simply optimize from a perfect-information view of the game. getting that balance right took several rounds of redesign in both the engine and the training setup. </p>
-              <p> on the training side, I experimented with different policy structures, reward signals, evaluation setups, and heuristics for action selection. some versions looked promising in short tests but fell apart in actual play; others exposed bugs in the underlying rules or scoring logic that I hadn't caught earlier. a lot of progress came from repeated playtesting, reading logs carefully, and tightening the connection between what the agent was rewarded for and what actually leads to good decisions in game. </p>
-              <p> IMAGE </p>
-              <p> once the policy was stable enough, I built a playable GUI around the engine so I could test it directly against humans. that part ended up being just as useful as training itself: watching games in real time made it much easier to spot weak endgame behavior, awkward action encoding choices, and UI or rules issues that were easy to miss in raw logs. by the end, laoban had become less of a single model and more of a full stack for the game: rules engine, training environment, evaluation harness, and human playtest interface. </p>
-              <p> the project is still ongoing, but it has already been one of the most rewarding things I've built. it started as a bet over dinner and turned into a really interesting exercise in formalizing a messy real-world game, building reliable infrastructure around it, and learning how much work it takes to make an agent behave sensibly in a setting with hidden information and a lot of edge cases. </p>
-              <p> VIDEO </p>
+              <p> every thursday evening, my chinese roommates and I play <i>5/10/K</i>: a strategy-based variant of the classic card game <i> Dou Dizhu (斗地主) </i>. almost every thursday evening, I lose significantly more games than I win.</p>
+              <p> before long, we were debating whether a bot could help me be more competitive at the game. though <i> Dou Dizhu </i> game engines existed, none existed for <i>5/10/K</i>, even though the game has more than 50 million players in China. </p>
+              <img src="/assets/cards.jpg" class="project-video">
+              <p> eventually, that turned into a bet: I had until the end of winter quarter to make a policy capable of beating human players. </p>              
+              <p> <i>5/10/K</i> is easy to learn informally, but distilling game mechanics down to a single strategy is harder to implement precisely. legal actions depend heavily on the current board state, and much of the game's value is decided in the endgame. </p>
+              <p> before I could even think about training an agent, I first had to simulate the game environment, since there was no existing implementation anywhere online. that meant writing the ruleset from scratch, representing actions, and encoding them in a way that a policy could actually train on. a snippet from a playtest: </p>
+              <img src="/assets/playtest.png" class="project-video">
+              <p> because players don't have access to total information, and because so much of the reward in <i>5/10/K</i> depends on realtime utility tradeoffs, the policy had to learn under uncertainty. getting this right took several different architectures and reward function iterations, including a few diastrous runs that used aggressively misaligned reward shaping. eventually, using PPO proved to be the best option; Q-learning tended to be too greedy since it learned action values that incentivised shedding point cards early. </p>
+              <img src="/assets/laoban_gui.png" class="project-video" style="max-width: 800px;">
+              <p> once the policy was stable enough, I built a rough GUI to playtest. so far, it's fairly robust; it's about even with my roommates (and beats me 9 times out of 10). play against it <a href="https://laoban.cards" target="_blank" rel="noopener noreferrer">here</a>! </p>
             </div>
           </div>
           <div class="project-item">
@@ -141,6 +140,7 @@
         const item = header.closest(".project-item");
         if (!item) return;
 
+        const projectsWindow = document.querySelector(".projects-window");
         const willOpen = !item.classList.contains("open");
 
         // close all
@@ -149,7 +149,15 @@
         });
 
         // open clicked (or leave closed if it was open)
-        if (willOpen) item.classList.add("open");
+        if (willOpen) {
+          item.classList.add("open");
+
+          requestAnimationFrame(() => {
+            if (projectsWindow) {
+              projectsWindow.scrollTop = 0;
+            }
+          });
+        }
       });
     </script>
 

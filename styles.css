@@ -47,7 +47,7 @@ body{
   color: #000;
 }
 
-/* desk panel ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â core primitive */
+/* desk panel ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â core primitive */
 .desk-panel{
   position: fixed;
   z-index: 2;
@@ -121,6 +121,13 @@ body{
   top: 28px;
   left: 28px;
   padding: 1px 1px;
+}
+
+@media (max-width: 900px), (max-height: 700px) {
+  .desk-photo {
+    z-index: 0 !important;
+    pointer-events: none;
+  }
 }
 
 .photo{
@@ -482,8 +489,8 @@ body:not(.dragging) .desk-panel .panel .titlebar {
 }
 
 .project-video video {
-  min-width: 120px;
-  max-width: 450px;
+  min-width: 0;
+  max-width: min(100%, 450px);
   max-height: 475px;
   width: auto;
   height: auto;
@@ -522,6 +529,7 @@ body:not(.dragging) .desk-panel .panel .titlebar {
   font-size: 18px;
   line-height: 1.4;
   background: #c0c0c0;
+  overflow-x: hidden;
 }
 
 /* -------------------------
@@ -536,7 +544,7 @@ body:not(.dragging) .desk-panel .panel .titlebar {
   border-bottom-color: #393939;
 }
 
-/* When open, remove headerÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢s own border so we don't double-frame */
+/* When open, remove headerÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢s own border so we don't double-frame */
 .project-item.open .project-header {
   border: none;
   border-bottom: 2px solid #808080; /* divider line */
@@ -548,8 +556,8 @@ body:not(.dragging) .desk-panel .panel .titlebar {
 }
 
 .project-body img {
-  min-width: 120px;
-  max-width: 400px;
+  min-width: 0;
+  max-width: min(100%, 400px);
   max-height: 400px;
   width: auto;
   height: auto;

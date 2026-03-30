@@ -84,7 +84,7 @@
               </div>
               <p> on the wiring side, we faced lots of unexpected challenges. first, the motors that came with the actuators didn't match spec, meaning I had to manually figure out torque and wiring on the fly. second, everything had to be kept isolated from the pumps and tubing, and we had to operate under the assumption that wiring could get wet at any moment. to minimize risk as best we could, we shrink-wrapped all soldering joints - a time-intensive but necessary step. finally, there was the preplanning: as the guy in charge of overall system design, I had to preorder any components we needed to ensure everything operated on the proper logic level and had the right drivers. in the end, this meant needing 3 separate power supplies: a high-current one for the actuator motors, and two separate supplies for the jetson, sensors, pumps, and other controllers. </p>
               <p> even though we didn't have a working prototype until 20 minutes before the deadline, our demo went by without any issues. see a bit of here: </p>
-                            <div class="project-video">
+              <div class="project-video">
                 <video autoplay muted loop playsinline preload="auto">
                   <source src="/assets/bot_demo.mp4" type="video/mp4">
                 </video>
@@ -92,7 +92,7 @@
               <p> despite being our first ever hackathon, we were winners of Nvidia's Edge AI track out of more than 200 teams (shoutout to Nvidia and ASUS for the DGX Spark, Jetson, monitor, and office visit :)). we had zero expectations coming in, and we were all incredibly surprised by what we could get done in less than 2 days of work. </p>
               <img src="/assets/winners.jpeg" class="project-video">
               <p> after the awards ceremony, our team ran a final tally: Markus ran 19 Cursor instances at once, Eric went 42 hours without sleep, and I soldered for 17 hours straight. none of us would have had it any other way.</p>
-              <p> learn more about Sprout <a href="https://devpost.com/software/greenguardian-microfarm" target="_blank" rel="noopener noreferrer">here</a>!</p>
+              <p> <i> learn more about sprout <a href="https://devpost.com/software/greenguardian-microfarm" target="_blank" rel="noopener noreferrer">here</a>! </i> </p>
             </div>
           </div>
           <div class="project-item">
@@ -119,7 +119,26 @@
             </div>
 
             <div class="project-body">
-              <p> desc </p>
+              <p> this project was a continuation of the CS107E PI, built from scratch in RISC-V assembly and C using an OS-wiped MangoPI SoC. </p>
+              <p> you know that moment when you go to the doctor's office and they strap you up to 5 different machines to take your vitals? this project was an attempt to condense that whole process into a single step. </p>
+              <p> the final form factor we landed on was utterly insane: 3d-print a giant hollow hand and stuff it full of sensors. in theory, all your vitals could be read with a single awkwardly long handshake. </p>
+              <img src="/assets/hand.jpeg" class="project-video">
+              <p> none of us had any idea what we were doing. we had never worked with raw sensor data, let alone serial communication with a nonstandard (RISC-V) board. </p>
+              <p> in retrospect, the process taught us foundational principles of working with embedded systems: always read every datasheet twice, have as much observability over communication as possible, and make sure to piecemeal-test physical systems first. in the end, we managed to get reliable signals out of our pulse, temperature, and oximeter sensors:</p>
+              <div class="project-video">
+                <video autoplay muted loop playsinline preload="auto">
+                  <source src="/assets/heartbeat.mp4" type="video/mp4">
+                </video>
+              </div>
+              <p> for good measure, we also wanted to make our hand self-sanitizing. this was done by dremeling out a pocket to hold a vial of liquid sanitizer and a solenoid to spray it at each handshake's falling edge: </p>
+              <img src="/assets/solenoid.jpeg" class="project-video">
+              <p> the only thing we had left to tackle was graphics, which we were also planning to design from scratch.since our pulse sensor wasn't variable, we couldn't display the raw ECG data. but, we came up with a cheeky solution: display a pulse graphic on each rising edge. </p>
+              <div class="project-video">
+                <video autoplay muted loop playsinline preload="auto">
+                  <source src="/assets/graphics.mp4" type="video/mp4">
+                </video>
+              </div>
+              <p> in the end, our system was far from practical, but we learned a ton about system design, hardware-software integration, and the realities of building messy physical things from scratch. </p>
             </div>
           </div>
         </div>

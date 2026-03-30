@@ -36,6 +36,60 @@
         <div class="project-stack">
           <div class="project-item">
             <div class="project-header">
+              sprout: mini robot microfarm
+          </div>
+
+            <div class="project-body">
+              <p> the idea for sprout came when I was sitting in my backyard over winter break, staring at a parched garden bed that hadn't been watered since I first left for college. 
+              <p> both of my parents have mobility challenges which make keeping our garden healthy difficult. so why not make a robot do it? </p>
+              <div class="project-image-row">
+                <img src="/assets/gardenbed_rotated.png">
+                <img src="/assets/botfinal.jpg">
+              </div>
+              <p> this turned into my team's project for Treehacks, Stanford's annual hackathon. originally, we thought a rover would be best, but quickly realized power demands made supplies prohibitively expensive. motion had to be bounded, which felt like a natural use case for a 3d-printer-style gantry. </p>
+              <p> after making some rough sketches and dimensioning everything out, we decided to full-send the only implementation that was financially feasible. with less than a week left, we spent 300 dollars on 2 industrial linear actuators on Ebay, courtesy of some sketchy guy from Fresno: </p>
+              <img src="/assets/actuators_floor.png" class="project-video">
+              <p> our final idea was ambitious but manageable: embed soil and temperature sensors in a dirt plot, feed that data to a 4B 4bit model edge-deployed on a Jetson Nano, and give the model actionable observability over the plot with a mounted camera and water pump. </p>
+              <p> we only had 36 hours to put everything together, and that meant needing to work in parallel. luckily, I was working with a dream team of MechE and CS guys who riveted aluminum and trained models while I soldered: </p>
+              <div class="project-image-row">
+                <img src="/assets/frame_cropped.png">
+                <img src="/assets/soldering_sprout.png">
+              </div>
+              <p> on the wiring side, we faced lots of unexpected challenges. first, the motors that came with the actuators didn't match spec, meaning I had to manually figure out torque and wiring on the fly. second, everything had to be kept isolated from the pumps and tubing, and we had to operate under the assumption that wiring could get wet at any moment. to minimize risk as best we could, we shrink-wrapped all soldering joints - a time-intensive but necessary step. finally, there was the preplanning: as the guy in charge of overall system design, I had to preorder any components we needed to ensure everything operated on the proper logic level and had the right drivers. in the end, this meant needing 3 separate power supplies: a high-current one for the actuator motors, and two separate supplies for the jetson, sensors, pumps, and other controllers. </p>
+              <p> even though we didn't have a working prototype until 20 minutes before the deadline, our demo went by without any issues. see a bit of it here: </p>
+              <div class="project-video">
+                <video autoplay muted loop playsinline preload="auto">
+                  <source src="/assets/bot_demo.mp4" type="video/mp4">
+                </video>
+              </div>
+              <p> despite being our first ever hackathon, we were winners of Nvidia's Edge AI track out of more than 200 teams (shoutout to Nvidia and ASUS for the DGX Spark, Jetson, monitor, and HQ visit :)). we had zero expectations coming in, and we were all incredibly surprised by what we could get done in less than 2 days of work. </p>
+              <img src="/assets/winners.jpeg" class="project-video">
+              <p> after the awards ceremony, our team ran a final tally: Markus ran 19 Cursor instances at once, Eric went 42 hours without sleep, and I soldered for 17 hours straight. none of us would have had it any other way.</p>
+              <p> <i> learn more about sprout <a href="https://devpost.com/software/greenguardian-microfarm" target="_blank" rel="noopener noreferrer">here</a>! </i> </p>
+            </div>
+          </div>
+
+          <div class="project-item">
+            <div class="project-header">
+              laoban: RL <i>5/10/K</i> engine
+          </div>
+            <div class="project-body">
+            <p> <i> want to beat the bot? play <a href="https://laoban.cards" target="_blank" rel="noopener noreferrer">here</a>!</i></p>
+            <p> every thursday evening, my chinese roommates and I play <i>5/10/K</i>: a strategy-based variant of the classic card game <i> Dou Dizhu (斗地主) </i>. almost every thursday evening, I lose significantly more games than I win.</p>
+            <p> before long, we were debating whether a bot could help me be more competitive at the game. though <i> Dou Dizhu </i> game engines existed, none existed for <i>5/10/K</i>, even though the game has more than 50 million players in China. </p>
+            <img src="/assets/cards.jpg" class="project-video">
+            <p> eventually, that turned into a bet: I had until the end of winter quarter to make a policy capable of beating human players. </p>              
+            <p> <i>5/10/K</i> is easy to learn informally, but distilling game mechanics down to a single strategy is harder to implement precisely. legal actions depend heavily on the current board state, and much of the game's value is decided in the endgame. </p>
+            <p> before I could even think about training an agent, I first had to simulate the game environment, since there was no existing implementation anywhere online. that meant writing the ruleset from scratch, representing actions, and encoding them in a way that a policy could actually train on. a snippet from a playtest: </p>
+            <img src="/assets/playtest.png" class="project-video">
+            <p> because players don't have access to total information, and because so much of the reward in <i>5/10/K</i> depends on realtime utility tradeoffs, the policy had to learn under uncertainty. getting this right took several different architectures and reward function iterations, including a few diastrous runs that used aggressively misaligned reward shaping. eventually, using PPO proved to be the best option; Q-learning tended to be too greedy since it learned action values that incentivised shedding point cards early. </p>
+            <img src="/assets/laoban_gui.png" class="project-video" style="max-width: 800px;">
+            <p> once the policy was stable enough, I built a rough GUI to playtest. so far, it's fairly robust; it's about even with my roommates (and beats me 9 times out of 10). </p>
+          </div>
+        </div>
+
+          <div class="project-item">
+            <div class="project-header">
               airBUD: basketball utility (robo)dog
             </div>
 
@@ -61,58 +115,9 @@
 
             </div>
           </div>
-          <div class="project-item">
-            <div class="project-header">
-              sprout: mini robot microfarm
-            </div>
+          
 
-            <div class="project-body">
-              <p> the idea for sprout came when I was sitting in my backyard over winter break, staring at a parched garden bed that hadn't been watered since I first left for college. 
-              <p> both of my parents have mobility challenges which make keeping our garden healthy difficult. so why not make a robot do it? </p>
-              <div class="project-image-row">
-                <img src="/assets/gardenbed_rotated.png">
-                <img src="/assets/botfinal.jpg">
-              </div>
-              <p> this turned into my team's project for Treehacks, Stanford's annual hackathon. originally, we thought a rover would be best, but quickly realized power demands made supplies prohibitively expensive. motion had to be bounded, which felt like a natural use case for a 3d-printer-style gantry. </p>
-              <p> after making some rough sketches and dimensioning everything out, we decided to full-send the only implementation that was financially feasible. with less than a week left, we spent 300 dollars on 2 industrial linear actuators on Ebay, courtesy of some sketchy guy from Fresno: </p>
-              <img src="/assets/actuators_floor.png" class="project-video">
-              <p> our final idea was ambitious but manageable: embed soil and temperature sensors in a dirt plot, feed that data to a 4B 4bit model edge-deployed on a Jetson Nano, and give the model actionable observability over the plot with a mounted camera and water pump. </p>
-              <p> we only had 36 hours to put everything together, and that meant needing to work in parallel. luckily, I was working with a dream team of MechE and CS guys who riveted aluminum and trained models while I soldered: </p>
-              <div class="project-image-row">
-                <img src="/assets/frame_cropped.png">
-                <img src="/assets/soldering_sprout.png">
-              </div>
-              <p> on the wiring side, we faced lots of unexpected challenges. first, the motors that came with the actuators didn't match spec, meaning I had to manually figure out torque and wiring on the fly. second, everything had to be kept isolated from the pumps and tubing, and we had to operate under the assumption that wiring could get wet at any moment. to minimize risk as best we could, we shrink-wrapped all soldering joints - a time-intensive but necessary step. finally, there was the preplanning: as the guy in charge of overall system design, I had to preorder any components we needed to ensure everything operated on the proper logic level and had the right drivers. in the end, this meant needing 3 separate power supplies: a high-current one for the actuator motors, and two separate supplies for the jetson, sensors, pumps, and other controllers. </p>
-              <p> even though we didn't have a working prototype until 20 minutes before the deadline, our demo went by without any issues. see a bit of here: </p>
-              <div class="project-video">
-                <video autoplay muted loop playsinline preload="auto">
-                  <source src="/assets/bot_demo.mp4" type="video/mp4">
-                </video>
-              </div>
-              <p> despite being our first ever hackathon, we were winners of Nvidia's Edge AI track out of more than 200 teams (shoutout to Nvidia and ASUS for the DGX Spark, Jetson, monitor, and office visit :)). we had zero expectations coming in, and we were all incredibly surprised by what we could get done in less than 2 days of work. </p>
-              <img src="/assets/winners.jpeg" class="project-video">
-              <p> after the awards ceremony, our team ran a final tally: Markus ran 19 Cursor instances at once, Eric went 42 hours without sleep, and I soldered for 17 hours straight. none of us would have had it any other way.</p>
-              <p> <i> learn more about sprout <a href="https://devpost.com/software/greenguardian-microfarm" target="_blank" rel="noopener noreferrer">here</a>! </i> </p>
-            </div>
-          </div>
-          <div class="project-item">
-            <div class="project-header">
-              laoban: RL <i>5/10/K</i> engine
-            </div>
-            <div class="project-body">
-              <p> <i> want to beat the bot? play <a href="https://laoban.cards" target="_blank" rel="noopener noreferrer">here</a>!</i></p>
-              <p> every thursday evening, my chinese roommates and I play <i>5/10/K</i>: a strategy-based variant of the classic card game <i> Dou Dizhu (斗地主) </i>. almost every thursday evening, I lose significantly more games than I win.</p>
-              <p> before long, we were debating whether a bot could help me be more competitive at the game. though <i> Dou Dizhu </i> game engines existed, none existed for <i>5/10/K</i>, even though the game has more than 50 million players in China. </p>
-              <img src="/assets/cards.jpg" class="project-video">
-              <p> eventually, that turned into a bet: I had until the end of winter quarter to make a policy capable of beating human players. </p>              
-              <p> <i>5/10/K</i> is easy to learn informally, but distilling game mechanics down to a single strategy is harder to implement precisely. legal actions depend heavily on the current board state, and much of the game's value is decided in the endgame. </p>
-              <p> before I could even think about training an agent, I first had to simulate the game environment, since there was no existing implementation anywhere online. that meant writing the ruleset from scratch, representing actions, and encoding them in a way that a policy could actually train on. a snippet from a playtest: </p>
-              <img src="/assets/playtest.png" class="project-video">
-              <p> because players don't have access to total information, and because so much of the reward in <i>5/10/K</i> depends on realtime utility tradeoffs, the policy had to learn under uncertainty. getting this right took several different architectures and reward function iterations, including a few diastrous runs that used aggressively misaligned reward shaping. eventually, using PPO proved to be the best option; Q-learning tended to be too greedy since it learned action values that incentivised shedding point cards early. </p>
-              <img src="/assets/laoban_gui.png" class="project-video" style="max-width: 800px;">
-              <p> once the policy was stable enough, I built a rough GUI to playtest. so far, it's fairly robust; it's about even with my roommates (and beats me 9 times out of 10). </p>
-            </div>
-          </div>
+
           <div class="project-item">
             <div class="project-header">
               goodhands: RISC/C vitals monitor

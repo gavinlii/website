@@ -47,7 +47,7 @@ body{
   color: #000;
 }
 
-/* desk panel ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â core primitive */
+/* desk panel ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â core primitive */
 .desk-panel{
   position: fixed;
   z-index: 2;
@@ -544,7 +544,7 @@ body:not(.dragging) .desk-panel .panel .titlebar {
   border-bottom-color: #393939;
 }
 
-/* When open, remove headerÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢s own border so we don't double-frame */
+/* When open, remove headerÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢s own border so we don't double-frame */
 .project-item.open .project-header {
   border: none;
   border-bottom: 2px solid #808080; /* divider line */
@@ -568,6 +568,13 @@ body:not(.dragging) .desk-panel .panel .titlebar {
   border-left-color: #ffffff;
   border-right-color: #808080;
   border-bottom-color: #808080;
+}
+
+.project-body img.laoban-gui-image {
+  width: 100%;
+  max-width: 800px;
+  max-height: none;
+  height: auto;
 }
 
 .project-image-row {

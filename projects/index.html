@@ -83,7 +83,7 @@
             <p> before I could even think about training an agent, I first had to simulate the game environment, since there was no existing implementation anywhere online. that meant writing the ruleset from scratch, representing actions, and encoding them in a way that a policy could actually train on. a snippet from a playtest: </p>
             <img src="/assets/playtest.png" class="project-video">
             <p> because players don't have access to total information, and because so much of the reward in <i>5/10/K</i> depends on realtime utility tradeoffs, the policy had to learn under uncertainty. getting this right took several different architectures and reward function iterations, including a few diastrous runs that used aggressively misaligned reward shaping. eventually, using PPO proved to be the best option; Q-learning tended to be too greedy since it learned action values that incentivised shedding point cards early. </p>
-            <img src="/assets/laoban_gui.png" class="project-video" style="width: 90%; max-width: 800px;">
+            <img src="/assets/laoban_gui.png" class="laoban-gui-image" style="width: 100%;">
             <p> once the policy was stable enough, I built a rough GUI to playtest. so far, it's fairly robust; it's about even with my roommates (and beats me 9 times out of 10). </p>
           </div>
         </div>

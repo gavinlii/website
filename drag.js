@@ -18,6 +18,73 @@ let rafPending = false;
 let lastClientX = 0;
 let lastClientY = 0;
 
+const cascadeRestoreMap = new WeakMap();
+let wasStackedLayout = false;
+
+function getCascadeWindows() {
+  return Array.from(document.querySelectorAll('.cascade-window'));
+}
+
+function rememberCascadeWindowHomes() {
+  getCascadeWindows().forEach((win) => {
+    if (cascadeRestoreMap.has(win)) return;
+
+    cascadeRestoreMap.set(win, {
+      parent: win.parentElement,
+      nextSibling: win.nextElementSibling,
+    });
+  });
+}
+
+function isCascadeLayoutStacked() {
+  const probe = document.querySelector('.cascade-window');
+  if (!probe) return false;
+  return getComputedStyle(probe).position === 'relative';
+}
+
+function resetDraggedCascadeWindow(win) {
+  const home = cascadeRestoreMap.get(win);
+
+  if (home?.parent) {
+    if (home.nextSibling && home.nextSibling.parentElement === home.parent) {
+      home.parent.insertBefore(win, home.nextSibling);
+    } else {
+      home.parent.appendChild(win);
+    }
+  }
+
+  win.style.position = '';
+  win.style.left = '';
+  win.style.top = '';
+  win.style.right = '';
+  win.style.bottom = '';
+  win.style.margin = '';
+  win.style.transform = '';
+  win.style.zIndex = '';
+}
+
+function normalizeCascadeWindowsForStackedLayout() {
+  if (draggingWin && draggingWin.classList.contains('cascade-window')) {
+    draggingWin = null;
+    activePointerId = null;
+    document.body.classList.remove('dragging');
+  }
+
+  getCascadeWindows().forEach((win) => {
+    resetDraggedCascadeWindow(win);
+  });
+}
+
+function syncCascadeLayoutState() {
+  const isStacked = isCascadeLayoutStacked();
+
+  if (isStacked && !wasStackedLayout) {
+    normalizeCascadeWindowsForStackedLayout();
+  }
+
+  wasStackedLayout = isStacked;
+}
+
 function bringToFront(win) {
   topZ += 1;
   win.style.zIndex = topZ;
@@ -25,8 +92,8 @@ function bringToFront(win) {
 
 function isStackedCascadeWindow(win) {
   return (
-    win.classList.contains("cascade-window") &&
-    getComputedStyle(win).position === "relative"
+    win.classList.contains('cascade-window') &&
+    getComputedStyle(win).position === 'relative'
   );
 }
 
@@ -41,15 +108,15 @@ function promoteToBodyAndFreeze(win) {
   baseLeft = rect.left;
   baseTop = rect.top;
 
-  win.style.position = "fixed";
-  win.style.left = baseLeft + "px";
-  win.style.top = baseTop + "px";
+  win.style.position = 'fixed';
+  win.style.left = baseLeft + 'px';
+  win.style.top = baseTop + 'px';
 
   // Reset layout props that can cause jumps
-  win.style.right = "auto";
-  win.style.bottom = "auto";
-  win.style.margin = "0";
-  win.style.transform = "translate3d(0px, 0px, 0px)";
+  win.style.right = 'auto';
+  win.style.bottom = 'auto';
+  win.style.margin = '0';
+  win.style.transform = 'translate3d(0px, 0px, 0px)';
 }
 
 function clampPosition(targetLeft, targetTop) {
@@ -64,7 +131,7 @@ function clampPosition(targetLeft, targetTop) {
   const maxLeft = vw - 40;
 
   // Vertical: keep titlebar reachable
-  const titlebar = draggingWin.querySelector(".titlebar");
+  const titlebar = draggingWin.querySelector('.titlebar');
   const barHeight = titlebar ? titlebar.offsetHeight : 32;
 
   const minTop = 0;
@@ -114,7 +181,7 @@ function startDrag(win, handleEl, clientX, clientY, pointerId = null) {
   offsetY = clientY - rect.top;
 
   draggingWin = win;
-  document.body.classList.add("dragging");
+  document.body.classList.add('dragging');
 
   activePointerId = pointerId;
 
@@ -130,7 +197,7 @@ function startDrag(win, handleEl, clientX, clientY, pointerId = null) {
 
 function commitTransformToLeftTop(win) {
   const tr = getComputedStyle(win).transform;
-  if (!tr || tr === "none") return;
+  if (!tr || tr === 'none') return;
 
   // Parse DOMMatrix (supported in modern browsers)
   const m = new DOMMatrixReadOnly(tr);
@@ -138,9 +205,9 @@ function commitTransformToLeftTop(win) {
   const committedLeft = baseLeft + m.m41;
   const committedTop = baseTop + m.m42;
 
-  win.style.transform = "translate3d(0px, 0px, 0px)";
-  win.style.left = committedLeft + "px";
-  win.style.top = committedTop + "px";
+  win.style.transform = 'translate3d(0px, 0px, 0px)';
+  win.style.left = committedLeft + 'px';
+  win.style.top = committedTop + 'px';
 
   // Update base for subsequent drags
   baseLeft = committedLeft;
@@ -154,12 +221,12 @@ function stopDrag() {
 
   draggingWin = null;
   activePointerId = null;
-  document.body.classList.remove("dragging");
+  document.body.classList.remove('dragging');
 }
 
 /* bring to front: click/tap anywhere on a window */
-document.addEventListener("pointerdown", (e) => {
-  const win = e.target.closest(".desk-panel");
+document.addEventListener('pointerdown', (e) => {
+  const win = e.target.closest('.desk-panel');
   if (!win) return;
   bringToFront(win);
 });
@@ -167,24 +234,24 @@ document.addEventListener("pointerdown", (e) => {
 /* drag start: ONLY from the MAIN (top-level) titlebar; NOT on buttons/links
    mobile: allow +20px slop below the main titlebar */
 document.addEventListener(
-  "pointerdown",
+  'pointerdown',
   (e) => {
     // Ignore interactions with controls
-    if (e.target.closest("a, button")) return;
+    if (e.target.closest('a, button')) return;
 
-    const win = e.target.closest(".desk-panel");
+    const win = e.target.closest('.desk-panel');
     if (!win) return;
     if (isStackedCascadeWindow(win)) return;
 
     // Main titlebar = direct child of the window (prevents nested panel titlebars)
-    const mainBar = win.querySelector(":scope > .titlebar");
+    const mainBar = win.querySelector(':scope > .titlebar');
     if (!mainBar) return;
 
-    const mobile = window.matchMedia("(max-width: 900px)").matches;
+    const mobile = window.matchMedia('(max-width: 900px)').matches;
 
     if (!mobile) {
       // Desktop: must click *on the main bar itself* (not nested bars)
-      const hitBar = e.target.closest(".titlebar");
+      const hitBar = e.target.closest('.titlebar');
       if (hitBar !== mainBar) return;
 
       startDrag(win, mainBar, e.clientX, e.clientY, e.pointerId);
@@ -207,7 +274,7 @@ document.addEventListener(
 
 /* Drag move (pointer): smooth via rAF */
 window.addEventListener(
-  "pointermove",
+  'pointermove',
   (e) => {
     if (!draggingWin) return;
     if (activePointerId !== null && e.pointerId !== activePointerId) return;
@@ -216,13 +283,13 @@ window.addEventListener(
   { passive: true }
 );
 
-window.addEventListener("pointerup", (e) => {
+window.addEventListener('pointerup', (e) => {
   if (!draggingWin) return;
   if (activePointerId !== null && e.pointerId !== activePointerId) return;
   stopDrag();
 });
 
-window.addEventListener("pointercancel", (e) => {
+window.addEventListener('pointercancel', (e) => {
   if (!draggingWin) return;
   if (activePointerId !== null && e.pointerId !== activePointerId) return;
   stopDrag();
@@ -232,7 +299,7 @@ window.addEventListener("pointercancel", (e) => {
    (even when Pointer Events exist, this helps Safari)
 */
 window.addEventListener(
-  "touchmove",
+  'touchmove',
   (e) => {
     if (!draggingWin) return;
     // If we're dragging, do not let the page scroll / refresh
@@ -240,3 +307,8 @@ window.addEventListener(
   },
   { passive: false }
 );
+
+rememberCascadeWindowHomes();
+window.addEventListener('load', syncCascadeLayoutState);
+window.addEventListener('resize', syncCascadeLayoutState);
+syncCascadeLayoutState();

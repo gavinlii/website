@@ -47,7 +47,7 @@ body{
   color: #000;
 }
 
-/* desk panel ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â core primitive */
+/* desk panel ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬ ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â core primitive */
 .desk-panel{
   position: fixed;
   z-index: 2;
@@ -168,7 +168,7 @@ body{
 }
 
 /* mobile: stack vertically when it gets tight */
-@media (max-width: 550px){
+@media (max-width: 600px){
   .desk-nav{
     flex-direction: column;
     align-items: flex-end;
@@ -194,7 +194,7 @@ body{
   overflow: auto;
 }
 
-@media (max-width: 550px) {
+@media (max-width: 600px) {
   .desk-bio {
     max-height: calc(100vh - 38vh);
   }
@@ -229,7 +229,7 @@ body{
 .project-stack{
   display: grid;
   gap: 12px;
-  padding: 14px 16px 16px;
+  padding: 6px 16px 16px;
 }
 
 .panel .titlebar{
@@ -304,7 +304,7 @@ body{
 }
 
 
-@media (max-width: 550px){
+@media (max-width: 600px){
   .desk-center .projects-window {
     top: 30vh;
   }
@@ -323,38 +323,49 @@ body{
 
 .interests-page .desk-center {
   display: block;
-  margin-top: 140px;   /* matches reading/projects alignment */
   position: relative;
+  width: min(1280px, calc(100vw - 48px));
+  min-height: 760px;
+  margin: clamp(104px, 16vh, 140px) auto 0;
 }
 
-/* base window size */
 .cascade-window {
-  width: 420px;
-  max-width: 90vw;
-  padding-bottom: 12px;
   position: absolute;
+  max-width: min(92vw, 100%);
+  padding-bottom: 1px;
+  z-index: 2;
+  resize: both;
+  overflow: auto;
 }
 
-/* each window's offset */
-.win-a {
-  top: 0;
-  left: 0;
+.cascade-window.win-a {
+  width: clamp(510px, 43vw, 510px);
+  top: clamp(100px, 10vh, 100px);;
+  left: clamp(120px, 99vw, 120px);;
 }
 
-.win-b {
-  top: 50px;
-  left: 60px;
+.cascade-window.win-b {
+  width: clamp(240px, 10vw, 240px);
+  top: clamp(100px, 10vh, 100px);
+  left: clamp(660px, 99vw, 660px);
 }
 
-.win-c {
-  top: 100px;
-  left: 120px;
+.cascade-window.win-c {
+  width: clamp(210px, 10vw, 210px);
+  bottom: clamp(250px, 28vh, 250px);
+  left: clamp(280px, 99vw, 280px);
 }
 
-/* body interior spacing */
+.cascade-window.win-d {
+  width: clamp(510px, 46vw, 510px);
+  bottom: clamp(250px, 61vh, 250px);
+  left: clamp(520px, 99vw, 520px);
+}
+
+/* interior */
 .cascade-body {
-  padding: 12px 14px;
-  font-size: 15.5px;
+  padding: 12px 14px 14px;
+  font-size: 16px;
   line-height: 1.4;
 }
 
@@ -363,48 +374,38 @@ body{
   box-shadow: 0 0 6px rgba(0,0,0,0.25);
 }
 
-/* interests: cascading windows */
-.cascade-window {
-  position: fixed;        
-  width: 420px;
-  max-width: 90vw;
-  padding-bottom: 12px;
-  z-index: 2;           
-}
+@media (max-width: 1100px), (max-height: 820px) {
+  html,
+  body.interests-page {
+    height: auto;
+    min-height: 100%;
+    overflow-y: auto;
+  }
 
-.cascade-window.win-a {
-  top: 17vh;
-  left: 7vw;
-  resize: both;
-  overflow: auto;
-}
+  body.interests-page {
+    position: static;
+    width: auto;
+  }
 
-.cascade-window.win-b {
-  top: 21vh;
-  left: 10.5vw;
-  resize: both;
-  overflow: auto;
-}
+  .interests-page .desk-center {
+    width: min(960px, calc(100vw - 32px));
+    min-height: auto;
+    margin: 212px auto 100px;
+    display: grid;
+    gap: 18px;
+  }
 
-.cascade-window.win-c {
-  top: 25vh;
-  left: 14vw;
-  resize: both;
-  overflow: auto;
-}
-
-.cascade-window.win-d {
-  top: 29vh;
-  left: 17.5vw;
-  resize: both;
-  overflow: auto;
-}
-
-/* interior */
-.cascade-body {
-  padding: 12px 14px 14px;
-  font-size: 16px;
-  line-height: 1.4;
+  .cascade-window {
+    position: relative;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    max-width: 100%;
+    margin: 0;
+    resize: none;
+  }
 }
 
 .reroll-btn{
@@ -544,7 +545,7 @@ body:not(.dragging) .desk-panel .panel .titlebar {
   border-bottom-color: #393939;
 }
 
-/* When open, remove headerÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢s own border so we don't double-frame */
+/* When open, remove headerÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬ ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¾ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢s own border so we don't double-frame */
 .project-item.open .project-header {
   border: none;
   border-bottom: 2px solid #808080; /* divider line */
@@ -624,4 +625,10 @@ a:focus,
 a:hover *,
 a:focus * {
   cursor: url("cursorpack/hand.cur"), pointer !important;
+}
+
+.projects-tagline {
+  margin: 10px 16px 0px 17px;
+  font-size: 0.95rem;
+  color: #000000;
 }

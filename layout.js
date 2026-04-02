@@ -6,6 +6,7 @@ const backgrounds = [
   "/assets/bg3-min.webp",
   "/assets/bg4.webp",
   "/assets/bg6-min.webp",
+  "/assets/bg7.jpg",
 ];
 
 // Apply stored background immediately (via CSS variable)

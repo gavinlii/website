@@ -23,6 +23,13 @@ function bringToFront(win) {
   win.style.zIndex = topZ;
 }
 
+function isStackedCascadeWindow(win) {
+  return (
+    win.classList.contains("cascade-window") &&
+    getComputedStyle(win).position === "relative"
+  );
+}
+
 function promoteToBodyAndFreeze(win) {
   const rect = win.getBoundingClientRect();
 
@@ -167,6 +174,7 @@ document.addEventListener(
 
     const win = e.target.closest(".desk-panel");
     if (!win) return;
+    if (isStackedCascadeWindow(win)) return;
 
     // Main titlebar = direct child of the window (prevents nested panel titlebars)
     const mainBar = win.querySelector(":scope > .titlebar");

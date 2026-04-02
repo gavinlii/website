@@ -229,7 +229,7 @@ body{
 .project-stack{
   display: grid;
   gap: 12px;
-  padding: 6px 16px 16px;
+  padding: 11px 16px 16px 16px;
 }
 
 .panel .titlebar{
@@ -339,28 +339,29 @@ body{
 }
 
 .cascade-window.win-a {
-  width: clamp(510px, 43vw, 510px);
-  top: clamp(100px, 10vh, 100px);;
-  left: clamp(120px, 99vw, 120px);;
+  width: 510px;
+  top: 100px;
+  left: calc(50% - 455px);
 }
 
 .cascade-window.win-b {
-  width: clamp(240px, 10vw, 240px);
-  top: clamp(100px, 10vh, 100px);
-  left: clamp(660px, 99vw, 660px);
+  width: 240px;
+  top: 100px;
+  left: calc(50% + 85px);
 }
 
 .cascade-window.win-c {
-  width: clamp(210px, 10vw, 210px);
-  bottom: clamp(250px, 28vh, 250px);
-  left: clamp(280px, 99vw, 280px);
+  width: 210px;
+  bottom: 250px;
+  left: calc(50% - 295px);
 }
 
 .cascade-window.win-d {
-  width: clamp(510px, 46vw, 510px);
-  bottom: clamp(250px, 61vh, 250px);
-  left: clamp(520px, 99vw, 520px);
+  width: 510px;
+  bottom: 250px;
+  left: calc(50% - 55px);
 }
+
 
 /* interior */
 .cascade-body {
@@ -379,6 +380,7 @@ body{
   body.interests-page {
     height: auto;
     min-height: 100%;
+    overflow-x: hidden;
     overflow-y: auto;
   }
 
@@ -393,9 +395,11 @@ body{
     margin: 212px auto 100px;
     display: grid;
     gap: 18px;
+    place-items: stretch;
+    transform: none !important;
   }
 
-  .cascade-window {
+  .interests-page .cascade-window {
     position: relative;
     top: auto !important;
     right: auto !important;
@@ -439,6 +443,15 @@ html, body {
     height: 100%;
     overflow: hidden;
   }
+
+  body.interests-page {
+    position: static;
+    width: auto;
+    height: auto;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }
 
 /* smoothen dragging */
@@ -455,6 +468,11 @@ html, body {
   height: 100%;
   overflow: hidden;
   overscroll-behavior: none;
+}
+
+html:has(body.interests-page),
+body.interests-page {
+  overflow-x: hidden;
 }
 
 /* Fixed background layer (mobile-safe, iOS-safe) */
@@ -627,8 +645,29 @@ a:focus * {
   cursor: url("cursorpack/hand.cur"), pointer !important;
 }
 
+.projects-window > .titlebar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  margin-bottom: 12px;
+}
+
 .projects-tagline {
-  margin: 10px 16px 0px 17px;
-  font-size: 0.95rem;
-  color: #000000;
+  margin: 0 1px 0 17px;
+}
+
+@media (max-width: 1100px), (max-height: 820px) {
+  html:has(body.interests-page),
+  body.interests-page {
+    height: auto !important;
+    min-height: 100%;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  body.interests-page {
+    position: static !important;
+    width: auto !important;
+    padding-bottom: 100px;
+  }
 }

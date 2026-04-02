@@ -340,25 +340,25 @@ body{
 
 .cascade-window.win-a {
   width: 510px;
-  top: 100px;
+  top: calc(50% - 205px);
   left: calc(50% - 455px);
 }
 
 .cascade-window.win-b {
   width: 240px;
-  top: 100px;
+  top: calc(50% - 205px);
   left: calc(50% + 85px);
 }
 
 .cascade-window.win-c {
   width: 210px;
-  bottom: 250px;
+  bottom: calc(50% - 105px);
   left: calc(50% - 295px);
 }
 
 .cascade-window.win-d {
   width: 510px;
-  bottom: 250px;
+  bottom: calc(50% - 105px);
   left: calc(50% - 55px);
 }
 

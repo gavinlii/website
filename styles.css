@@ -352,13 +352,13 @@ body{
 
 .cascade-window.win-c {
   width: 210px;
-  bottom: calc(50% - 105px);
+  bottom: calc(50% - 205px);
   left: calc(50% - 295px);
 }
 
 .cascade-window.win-d {
   width: 510px;
-  bottom: calc(50% - 105px);
+  bottom: calc(50% - 205px);
   left: calc(50% - 55px);
 }
 

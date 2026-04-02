@@ -10,6 +10,7 @@
     <link rel="preload" as="image" href="/assets/bg3-min.webp">
     <link rel="preload" as="image" href="/assets/bg4.webp">
     <link rel="preload" as="image" href="/assets/bg6-min.webp">
+    <link rel="preload" as="image" href="/assets/bg7.jpg">
     <link rel="icon" href="/favicon.ico" sizes="any">
   </head>
 
@@ -53,7 +54,7 @@
       }
 
       // background (no consecutive repeats) + persist for home.html
-      const backgrounds = ["/assets/bg1.webp", "/assets/bg2-min.webp", "/assets/bg3-min.webp", "/assets/bg4.webp", "/assets/bg6-min.webp"];
+      const backgrounds = ["/assets/bg1.webp", "/assets/bg2-min.webp", "/assets/bg3-min.webp", "/assets/bg4.webp", "/assets/bg6-min.webp", "/assets/bg7.jpg"];
       const bg = pickNonRepeating("last_bg", backgrounds);
       if (bg) {
         document.body.style.backgroundImage = `url('${bg}')`;

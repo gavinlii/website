@@ -206,7 +206,7 @@
 <body>
   <div id="header">
     <span class="mark">Oracle</span>
-    <span class="tag">the gallery of taste · a Bradley-Terry study · CS109</span>
+    <span class="tag">Gavin Griffin | CS109 Challenge</span>
   </div>
   <div id="layout">
     <div id="stage"></div>
@@ -245,11 +245,11 @@ const ARTWORKS = [
   "Nighthawks_by_Edward_Hopper_1942.jpg",                                               //  9 Hopper · American realism · 1942 · moody urban noir
   "Piet_Mondriaan,_1930_-_Mondrian_Composition_II_in_Red,_Blue,_and_Yellow.jpg",        // 10 Mondrian · De Stijl · 1930 · pure geometry
   "The_Fighting_Temeraire,_JMW_Turner,_National_Gallery.jpg",                           // 11 Turner · Romanticism · 1839 · atmospheric sunset
-  "Guernica.jpg",                                                                       // 12 Picasso · Cubism · 1937 · monochrome anti-war
+  "Eugène_Delacroix_-_La_liberté_guidant_le_peuple.jpg",                               // 12 Delacroix · French Romanticism · 1830 · revolutionary drama
   "Las_Meninas,_by_Diego_Velázquez,_from_Prado_in_Google_Earth.jpg",                    // 13 Velázquez · Spanish Baroque · 1656 · court scene
-  "Gu_Hongzhong's_Night_Revels_1.jpg",                                                 // 14 Gu Hongzhong · Five Dynasties China · 10th c. · scroll
+  "Deesis_mosaic_Hagia_Sophia.jpg",                                                     // 14 Byzantine · Hagia Sophia · 13th c. · gold mosaic
   "Van_Eyck_-_Arnolfini_Portrait.jpg",                                                  // 15 Van Eyck · N. Renaissance · 1434 · rich northern detail
-  "Caravaggio_Judith_Beheading_Holofernes.jpg",                                         // 16 Caravaggio · Italian Baroque · ~1599 · dramatic chiaroscuro
+  "The_Son_of_Man.jpg",                                                                 // 16 Magritte · Surrealism · 1964 · bowler-hat mystery
   "Paul_Gauguin_141.jpg",                                                               // 17 Gauguin · post-impressionism · Tahitian · saturated
   "Rembrandt_van_Rijn_-_Self-Portrait_-_Google_Art_Project.jpg",                        // 18 Rembrandt · Dutch Baroque · ~1660 · dark introspective
   "Grant_Wood_-_American_Gothic_-_Google_Art_Project.jpg"                               // 19 Grant Wood · American regionalism · 1930 · stark
@@ -273,14 +273,39 @@ const TITLES = [
   {t:"Nighthawks", a:"Edward Hopper"},
   {t:"Composition in Red, Blue and Yellow", a:"Piet Mondrian"},
   {t:"The Fighting Temeraire", a:"J. M. W. Turner"},
-  {t:"Guernica", a:"Pablo Picasso"},
+  {t:"Liberty Leading the People", a:"Eugène Delacroix"},
   {t:"Las Meninas", a:"Diego Velázquez"},
-  {t:"Night Revels of Han Xizai", a:"Gu Hongzhong"},
+  {t:"Deësis", a:"Byzantine, Hagia Sophia · 13th century"},
   {t:"The Arnolfini Portrait", a:"Jan van Eyck"},
-  {t:"Judith Beheading Holofernes", a:"Caravaggio"},
+  {t:"The Son of Man", a:"René Magritte"},
   {t:"Tahitian Scene", a:"Paul Gauguin"},
   {t:"Self-Portrait", a:"Rembrandt van Rijn"},
   {t:"American Gothic", a:"Grant Wood"}
+];
+
+/* Per-painting CSS object-position for intelligent square-crop.
+   "X% Y%" — tuned so faces, central figures, and iconic motifs survive the crop. */
+const CROP = [
+  "50% 55%",  //  0 Great Wave: crest centered, slight low anchor
+  "50% 25%",  //  1 Mona Lisa: face fills upper crop
+  "50% 50%",  //  2 Starry Night: swirls fill canvas
+  "50% 50%",  //  3 The Kiss: square composition
+  "35% 50%",  //  4 Hunters in Snow: hunter figures are left third
+  "50% 30%",  //  5 The Scream: screaming figure upper-center
+  "55% 38%",  //  6 Birth of Venus: Venus shifted right of center
+  "50% 50%",  //  7 Composition VII: abstract, center fine
+  "50% 28%",  //  8 Girl with Pearl Earring: face upper portion
+  "50% 55%",  //  9 Nighthawks: diner counter lower half
+  "50% 50%",  // 10 Mondrian: geometric, any crop works
+  "62% 48%",  // 11 Fighting Temeraire: ship on right
+  "45% 42%",  // 12 Liberty Leading the People: Liberty figure left-center
+  "50% 38%",  // 13 Las Meninas: Infanta group upper center
+  "50% 30%",  // 14 Deësis: Christ face upper half of wide mosaic
+  "50% 38%",  // 15 Arnolfini Portrait: faces upper portion
+  "50% 32%",  // 16 Son of Man: bowler figure fills upper frame
+  "45% 48%",  // 17 Gauguin Tahitian: figure center-left
+  "50% 28%",  // 18 Rembrandt self-portrait: face upper portion
+  "50% 30%",  // 19 American Gothic: two figures upper frame
 ];
 
 /* ============================================================
@@ -578,6 +603,7 @@ function buildBars(){
     const thumb = document.createElement("img");
     thumb.className = "bar-thumb"; thumb.src = IMAGES[i]; thumb.alt="";
     thumb.title = TITLES[i].t + " — " + TITLES[i].a;
+    thumb.style.objectPosition = CROP[i];
     thumb.onerror = () => { thumb.style.visibility = "hidden"; };
     const track = document.createElement("div"); track.className = "bar-track";
     const se = document.createElement("div"); se.className = "bar-se";
@@ -625,6 +651,7 @@ function imgEl(idx){
   // (We don't hide the <img> via display:none — the CSS aspect-ratio box must
   //  stay so the frame keeps its shape; .broken hides it with visibility instead.)
   return `<img src="${IMAGES[idx]}" alt="${TITLES[idx].t}"
+            style="object-position:${CROP[idx]}"
             onerror="this.parentElement.classList.add('broken');this.parentElement.dataset.label='${TITLES[idx].a}';markBroken(${idx});">`;
 }
 function markBroken(idx){ state.broken.add(idx); }
@@ -925,7 +952,7 @@ async function showReveal(){
         Your ranking, learned from ${state.observations.length} choices.
       </div>
 
-      <h2>The gallery's favourites</h2>
+      <h2>The gallery's global favourites</h2>
       <div id="gallerySection" style="color:var(--muted);font-style:italic;padding:20px 0;">
         Consulting the gallery records…
       </div>

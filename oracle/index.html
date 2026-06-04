@@ -50,7 +50,7 @@
   /* ---------- Sidebar (score placard) ---------- */
   #sidebar{
     width:218px;flex:0 0 218px;border-left:1px solid var(--line);
-    padding:20px 16px;background:linear-gradient(#f3ecd9,#eee5cf);
+    padding:20px 16px;background:rgba(240,231,212,0.72);
     max-height:calc(100vh - 65px);overflow-y:auto;
   }
   #sidebar .side-title{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);
@@ -211,9 +211,9 @@
         result="noise"/>
       <feColorMatrix type="saturate" values="0" in="noise" result="grey"/>
       <feComponentTransfer in="grey">
-        <feFuncR type="linear" slope="0.169" intercept="0.765"/>
-        <feFuncG type="linear" slope="0.192" intercept="0.706"/>
-        <feFuncB type="linear" slope="0.227" intercept="0.612"/>
+        <feFuncR type="linear" slope="0.086" intercept="0.854"/>
+        <feFuncG type="linear" slope="0.110" intercept="0.808"/>
+        <feFuncB type="linear" slope="0.145" intercept="0.737"/>
       </feComponentTransfer>
     </filter>
     <rect width="100%" height="100%" filter="url(#ptex)"/>

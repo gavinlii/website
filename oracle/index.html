@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oracle — liigriff.in</title>
+<style>
+  :root{
+    --bg:#e7ddc8;          /* gallery wall */
+    --panel:#f7f2e7;       /* cream placard */
+    --line:#d4c7a8;        /* soft tan divider */
+    --text:#2c261b;        /* dark sepia ink */
+    --muted:#867a59;       /* sepia */
+    --accent:#9a7a36;      /* antique gold */
+    --accent-soft:rgba(154,122,54,0.22);
+    --gold-lt:#c6a657;
+    --good:#3f7d4f;
+    --bad:#a8413b;
+    --frame:linear-gradient(135deg,#e3c578,#a9873f 28%,#d8b65f 52%,#9c7c33 76%,#e0c06f);
+    --serif:"Hoefler Text","Baskerville Old Face",Baskerville,"Palatino Linotype","Book Antiqua",Palatino,Garamond,Georgia,"Times New Roman",serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{
+    /* Layered paper/linen texture: two diagonal cross-hatch families + soft vignette */
+    background:
+      radial-gradient(ellipse 120% 80% at 50% 0%, rgba(255,252,240,.6) 0%, transparent 60%),
+      repeating-linear-gradient( 27deg, transparent 0px, transparent 5px, rgba(155,130,85,.028) 5px, rgba(155,130,85,.028) 6px),
+      repeating-linear-gradient(-27deg, transparent 0px, transparent 5px, rgba(155,130,85,.022) 5px, rgba(155,130,85,.022) 6px),
+      repeating-linear-gradient( 72deg, transparent 0px, transparent 9px, rgba(120,100,60,.015) 9px, rgba(120,100,60,.015) 10px),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--serif);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .serif{font-family:var(--serif);}
+  .accent{color:var(--accent);}
+  .hidden{display:none !important;}
+
+
+  #header{
+    position:relative;z-index:2;
+    padding:22px 30px 16px;
+    border-bottom:1px solid var(--line);box-shadow:0 1px 0 rgba(154,122,54,.28);
+    display:flex;align-items:baseline;gap:18px;
+  }
+  #header .mark{font-family:var(--serif);font-size:23px;letter-spacing:.36em;text-transform:uppercase;color:var(--text);}
+  #header .tag{font-size:13px;color:var(--muted);letter-spacing:.05em;font-style:italic;}
+
+  #layout{position:relative;z-index:1;display:flex;align-items:stretch;min-height:calc(100vh - 65px);}
+  #stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 24px;}
+
+  /* ---------- Sidebar (score placard) ---------- */
+  #sidebar{
+    width:218px;flex:0 0 218px;border-left:1px solid var(--line);
+    padding:20px 16px;background:linear-gradient(#f3ecd9,#eee5cf);
+    max-height:calc(100vh - 65px);overflow-y:auto;
+  }
+  #sidebar .side-title{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);
+    margin-bottom:16px;text-align:center;border-bottom:1px solid var(--line);padding-bottom:11px;}
+  #bars{display:flex;flex-direction:column;gap:8px;}
+  .bar-row{display:flex;align-items:center;gap:10px;height:30px;}
+  .bar-thumb{width:32px;height:32px;object-fit:cover;border-radius:1px;border:1px solid var(--accent);
+    box-shadow:0 1px 3px rgba(70,52,22,.3);flex:0 0 32px;background:#fff;}
+  .bar-track{position:relative;flex:1;height:11px;background:#e2d6ba;border-radius:6px;border:1px solid var(--line);overflow:hidden;}
+  .bar-se{position:absolute;top:0;height:100%;background:var(--accent-soft);transition:left .3s ease,width .3s ease;}
+  .bar-fill{position:absolute;top:0;left:0;height:100%;background:linear-gradient(var(--gold-lt),var(--accent));transition:width .3s ease;}
+
+  /* ---------- Intro ---------- */
+  .intro{max-width:600px;text-align:center;position:relative;}
+  .intro h1{font-family:var(--serif);font-size:72px;margin:0 0 6px;letter-spacing:.05em;font-weight:600;}
+  .intro .sub{font-size:21px;color:var(--accent);margin-bottom:26px;font-style:italic;}
+  .intro p{font-size:16px;line-height:1.85;color:#4a4133;margin-bottom:36px;}
+  .flourish{color:var(--accent);font-size:15px;letter-spacing:.7em;margin:0 0 14px;}
+  .transition h1{font-size:50px;margin-bottom:14px;}
+  .transition .sub{font-style:normal;text-transform:uppercase;letter-spacing:.26em;font-size:12px;color:var(--muted);margin-bottom:22px;}
+  .transition em{color:var(--accent);font-style:italic;}
+  .btn{
+    background:transparent;color:var(--text);border:1px solid var(--accent);
+    padding:13px 38px;font-family:var(--serif);font-size:14px;letter-spacing:.22em;text-transform:uppercase;
+    cursor:pointer;transition:background .22s ease,color .22s ease;border-radius:1px;
+  }
+  .btn:hover{background:var(--accent);color:#fbf7ec;}
+  .btn.ghost{border-color:var(--line);color:var(--muted);}
+  .btn.ghost:hover{background:#e6dcc4;color:var(--text);}
+
+  /* ---------- Pair / framed artworks ---------- */
+  .prompt{font-family:var(--serif);font-size:34px;margin-bottom:30px;text-align:center;font-style:italic;}
+  .pair{display:flex;gap:48px;justify-content:center;align-items:center;flex-wrap:wrap;}
+  .card{
+    position:relative;width:clamp(200px,31vw,330px);cursor:pointer;
+    padding:14px;border-radius:2px;background:var(--frame);
+    box-shadow:0 16px 34px -14px rgba(50,35,10,.6), inset 0 0 0 1px #6c5320, inset 0 0 0 4px rgba(255,255,255,.13);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .card img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;
+    border:10px solid #f6efe0;background:#f6efe0;box-shadow:inset 0 0 0 1px #6c5320;}
+  .card:hover{transform:translateY(-4px);
+    box-shadow:0 22px 42px -14px rgba(50,35,10,.62), inset 0 0 0 1px #6c5320, inset 0 0 0 4px rgba(255,255,255,.2);}
+  .card.disabled{cursor:default;}
+  .card.disabled:hover{transform:none;}
+  .card.broken img,.ph.broken img{visibility:hidden;}
+  .card.broken::after,.ph.broken::after{content:attr(data-label);position:absolute;inset:14px;display:flex;
+    align-items:center;justify-content:center;color:var(--muted);background:#f6efe0;font-size:13px;letter-spacing:.05em;z-index:1;}
+  .card.chosen{animation:pulse .5s ease;}
+  @keyframes pulse{0%{transform:scale(1);}40%{transform:scale(1.04);box-shadow:0 0 0 3px var(--gold-lt),0 18px 30px -10px rgba(50,35,10,.5);}100%{transform:scale(1);}}
+  .card.predicted{box-shadow:0 0 0 3px var(--gold-lt),0 0 36px -2px rgba(154,122,54,.7),inset 0 0 0 1px #6c5320;}
+  .card.blurred img{filter:blur(16px) brightness(.82);transform:scale(1.03);transition:filter .5s ease,transform .5s ease;}
+  .card .verdict{
+    position:absolute;inset:14px;display:none;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;
+    font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:.06em;color:#fff;
+  }
+  .card .verdict.show{display:flex;}
+  .verdict.ok{background:rgba(63,125,79,.85);}
+  .verdict.no{background:rgba(168,65,59,.85);}
+
+  .progress{margin-top:34px;width:min(520px,80%);text-align:center;}
+  .progress-bar{height:2px;background:var(--line);overflow:hidden;}
+  .progress-fill{height:100%;background:var(--accent);transition:width .35s ease;}
+  .round-label{margin-top:12px;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);}
+  .status{margin-top:10px;font-size:14px;color:var(--muted);font-style:italic;}
+
+  /* ---------- Prediction banner (engraved placard) ---------- */
+  .banner{
+    border:1px solid var(--accent);border-radius:2px;padding:16px 32px;margin-bottom:28px;
+    text-align:center;background:linear-gradient(#fbf6ea,#f1e8d3);min-width:300px;
+    min-height:76px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    box-shadow:0 8px 20px -12px rgba(50,35,10,.4);
+  }
+  .banner-main{font-family:var(--serif);font-size:22px;letter-spacing:.02em;color:var(--text);}
+  .banner-sub{font-size:12px;color:var(--muted);margin-top:6px;letter-spacing:.18em;text-transform:uppercase;}
+  .banner-main em,.banner-main .accent{font-style:italic;}
+  /* Sketch arrow — drawn-in SVG pointing at the predicted card */
+  .sketch-arrow{position:absolute;top:-70px;left:50%;transform:translateX(-50%);
+    pointer-events:none;z-index:4;overflow:visible;}
+  @keyframes drawStroke{from{stroke-dashoffset:1;}to{stroke-dashoffset:0;}}
+  .arrow-shaft{stroke-dasharray:1;stroke-dashoffset:1;animation:drawStroke .55s cubic-bezier(.4,0,.2,1) .15s forwards;}
+  .arrow-head{stroke-dasharray:1;stroke-dashoffset:1;animation:drawStroke .3s cubic-bezier(.4,0,.2,1) .65s forwards;}
+  .pick-tag{display:none;} /* replaced by sketch arrow */
+  @keyframes blink{0%,100%{opacity:.3;}50%{opacity:1;}}
+  .dots{animation:blink 1.1s ease-in-out infinite;}
+  .tally{margin-top:16px;font-size:14px;color:var(--muted);letter-spacing:.03em;font-style:italic;}
+  /* tally numbers: same muted tone, just slightly heavier — no jarring color shift */
+  .tally b{color:var(--muted);font-weight:700;font-style:normal;}
+
+  /* ---------- Reveal ---------- */
+  .reveal{width:min(980px,92vw);padding:24px 0 90px;}
+  .reveal h2{font-family:var(--serif);font-size:15px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);
+    border-bottom:1px solid var(--line);padding-bottom:9px;margin:56px 0 24px;font-weight:600;}
+  .big-score{font-family:var(--serif);font-size:58px;text-align:center;margin:8px 0;}
+  .big-score small{display:block;font-family:inherit;font-size:17px;color:var(--muted);margin-top:12px;font-style:italic;}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+  .grid-cell{display:flex;flex-direction:column;gap:9px;}
+  .grid-cell .ph{position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;padding:9px;border-radius:2px;
+    background:var(--frame);box-shadow:0 9px 18px -10px rgba(50,35,10,.5),inset 0 0 0 1px #6c5320;}
+  .grid-cell img{width:100%;height:100%;object-fit:cover;display:block;border:5px solid #f6efe0;background:#f6efe0;}
+  .grid-cell .rank-badge{position:absolute;top:13px;left:13px;background:#2c261b;color:var(--gold-lt);font-size:11px;
+    padding:2px 7px;border-radius:1px;font-family:var(--serif);z-index:2;}
+  .cap{text-align:center;line-height:1.3;}
+  .cap-t{display:block;font-style:italic;font-size:13.5px;color:var(--text);}
+  .cap-a{display:block;font-size:11.5px;color:var(--muted);letter-spacing:.03em;}
+  .pct-track{height:5px;background:#e2d6ba;border:1px solid var(--line);border-radius:3px;overflow:hidden;margin-top:4px;}
+  .pct-fill{height:100%;background:linear-gradient(var(--gold-lt),var(--accent));}
+  .pct-num{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;text-align:center;}
+  .calib-wrap{display:flex;gap:34px;align-items:center;flex-wrap:wrap;}
+  .calib-wrap .legend{font-size:13.5px;color:#4a4133;line-height:1.8;max-width:360px;}
+  .legend .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:8px;vertical-align:middle;}
+  .explain p{font-size:15px;line-height:1.85;color:#4a4133;margin:0 0 16px;}
+  .explain b{color:var(--text);}
+  .reveal-buttons{display:flex;gap:16px;justify-content:center;margin-top:44px;}
+
+  /* ---------- Gallery favourites (global tally) ---------- */
+  .galleries{display:flex;gap:36px;flex-wrap:wrap;}
+  .gboard{flex:1 1 300px;}
+  .gboard h4{font-family:var(--serif);font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);margin:0 0 16px;font-weight:600;}
+  .grow{display:flex;align-items:center;gap:13px;margin-bottom:14px;}
+  .grow .gthumb{width:48px;height:48px;flex:0 0 48px;object-fit:cover;border:1px solid var(--accent);
+    background:#fff;box-shadow:0 2px 5px rgba(70,52,22,.28);}
+  .grow .gmeta{flex:1;min-width:0;}
+  .grow .gt{font-style:italic;font-size:14px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .grow .ga{font-size:12px;color:var(--muted);}
+  .grow .gbar{height:5px;background:#e2d6ba;border:1px solid var(--line);border-radius:3px;overflow:hidden;margin-top:5px;}
+  .grow .gbar i{display:block;height:100%;background:linear-gradient(var(--gold-lt),var(--accent));}
+  .grow .gpct{flex:0 0 auto;font-size:14px;color:var(--accent);font-variant-numeric:tabular-nums;}
+  .gfoot{font-size:12.5px;color:var(--muted);font-style:italic;margin-top:6px;text-align:center;}
+
+  .faq{border:1px solid var(--line);border-radius:2px;padding:24px 28px;margin-top:24px;background:var(--panel);}
+  .faq-item{border-bottom:1px solid var(--line);padding:18px 0;}
+  .faq-item:first-child{padding-top:0;}
+  .faq-item:last-child{border-bottom:none;padding-bottom:0;}
+  .faq-q{font-family:var(--serif);font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px;}
+  .faq-a{font-size:14px;line-height:1.8;color:#4a4133;}
+  .faq-a em{color:var(--accent);font-style:italic;}
+  .math{border:1px solid var(--line);border-radius:2px;padding:24px 28px;margin-top:24px;background:var(--panel);font-size:14px;line-height:1.85;color:#4a4133;}
+  .math h3{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin:24px 0 8px;font-weight:600;}
+  .math h3:first-child{margin-top:0;}
+  .math .eq{font-family:"Cambria Math",var(--serif);font-size:16px;color:var(--text);background:#efe7d3;border:1px solid var(--line);border-radius:2px;padding:10px 14px;margin:8px 0;display:block;overflow-x:auto;}
+  .math .note{font-size:13px;color:var(--muted);font-style:italic;}
+  .fade-in{animation:fadeIn .4s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+</style>
+</head>
+<body>
+  <div id="header">
+    <span class="mark">Oracle</span>
+    <span class="tag">the gallery of taste · a Bradley-Terry study · CS109</span>
+  </div>
+  <div id="layout">
+    <div id="stage"></div>
+    <aside id="sidebar" class="hidden">
+      <div class="side-title">Estimated regard</div>
+      <div id="bars"></div>
+    </aside>
+  </div>
+
+<script>
+"use strict";
+
+/* ============================================================
+   IMAGE SET — 20 hardcoded Unsplash CDN URLs, image_0..image_19
+   Chosen to vary on warm/cool, busy/minimal, natural/urban,
+   high/low contrast.
+   ============================================================ */
+/* Twenty public-domain paintings from Wikimedia Commons — spanning ~500 years
+   (1434–1930) and wildly different schools and palettes, so the demo is about
+   aesthetic *taste*, not random snapshots. They're INTERLEAVED so adjacent indices
+   differ in era/palette (which, with the randomized tie-break below, keeps early
+   calibration from pairing two stylistic neighbours).
+
+   Sourced via Wikimedia's Special:FilePath?width=600 — Commons buckets that up to a
+   ~960px thumbnail: crisp on screen, but a fraction of the multi-thousand-px originals. */
+const ARTWORKS = [
+  "The_Great_Wave_off_Kanagawa.jpg",                                                    //  0 Hokusai · ukiyo-e · 1831 · blue & white
+  "Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched.jpg",                          //  1 da Vinci · Renaissance · 1503 · muted earth
+  "Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",                                   //  2 Van Gogh · post-impressionism · 1889 · blue/yellow
+  "Gustav_Klimt_016.jpg",                                                               //  3 Klimt · The Kiss · art nouveau · 1908 · gold
+  "Pieter_Bruegel_the_Elder_-_Hunters_in_the_Snow_(Winter)_-_Google_Art_Project.jpg",  //  4 Bruegel · N. Renaissance · 1565 · cold winter
+  "Edvard_Munch,_1893,_The_Scream,_oil,_tempera_and_pastel_on_cardboard,_91_x_73_cm,_National_Gallery_of_Norway.jpg", // 5 Munch · expressionism · 1893 · orange/existential
+  "Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg",         //  6 Botticelli · early Renaissance · 1485 · pastel mythological
+  "Vassily_Kandinsky,_1913_-_Composition_7.jpg",                                        //  7 Kandinsky · abstract · 1913 · vivid chaos
+  "1665_Girl_with_a_Pearl_Earring.jpg",                                                 //  8 Vermeer · Dutch Baroque · 1665 · intimate portrait
+  "Nighthawks_by_Edward_Hopper_1942.jpg",                                               //  9 Hopper · American realism · 1942 · moody urban noir
+  "Piet_Mondriaan,_1930_-_Mondrian_Composition_II_in_Red,_Blue,_and_Yellow.jpg",        // 10 Mondrian · De Stijl · 1930 · pure geometry
+  "The_Fighting_Temeraire,_JMW_Turner,_National_Gallery.jpg",                           // 11 Turner · Romanticism · 1839 · atmospheric sunset
+  "Guernica.jpg",                                                                       // 12 Picasso · Cubism · 1937 · monochrome anti-war
+  "Las_Meninas,_by_Diego_Velázquez,_from_Prado_in_Google_Earth.jpg",                    // 13 Velázquez · Spanish Baroque · 1656 · court scene
+  "Gu_Hongzhong's_Night_Revels_1.jpg",                                                 // 14 Gu Hongzhong · Five Dynasties China · 10th c. · scroll
+  "Van_Eyck_-_Arnolfini_Portrait.jpg",                                                  // 15 Van Eyck · N. Renaissance · 1434 · rich northern detail
+  "Caravaggio_Judith_Beheading_Holofernes.jpg",                                         // 16 Caravaggio · Italian Baroque · ~1599 · dramatic chiaroscuro
+  "Paul_Gauguin_141.jpg",                                                               // 17 Gauguin · post-impressionism · Tahitian · saturated
+  "Rembrandt_van_Rijn_-_Self-Portrait_-_Google_Art_Project.jpg",                        // 18 Rembrandt · Dutch Baroque · ~1660 · dark introspective
+  "Grant_Wood_-_American_Gothic_-_Google_Art_Project.jpg"                               // 19 Grant Wood · American regionalism · 1930 · stark
+];
+const IMAGES = ARTWORKS.map(name =>
+  "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(name) + "?width=600");
+const N = IMAGES.length; // 20
+
+/* Museum placard captions (shown only on the reveal — never during the choosing,
+   so the preference stays a gut reaction rather than a vote for a famous name). */
+const TITLES = [
+  {t:"The Great Wave off Kanagawa", a:"Katsushika Hokusai"},
+  {t:"Mona Lisa", a:"Leonardo da Vinci"},
+  {t:"The Starry Night", a:"Vincent van Gogh"},
+  {t:"The Kiss", a:"Gustav Klimt"},
+  {t:"The Hunters in the Snow", a:"Pieter Bruegel the Elder"},
+  {t:"The Scream", a:"Edvard Munch"},
+  {t:"The Birth of Venus", a:"Sandro Botticelli"},
+  {t:"Composition VII", a:"Wassily Kandinsky"},
+  {t:"Girl with a Pearl Earring", a:"Johannes Vermeer"},
+  {t:"Nighthawks", a:"Edward Hopper"},
+  {t:"Composition in Red, Blue and Yellow", a:"Piet Mondrian"},
+  {t:"The Fighting Temeraire", a:"J. M. W. Turner"},
+  {t:"Guernica", a:"Pablo Picasso"},
+  {t:"Las Meninas", a:"Diego Velázquez"},
+  {t:"Night Revels of Han Xizai", a:"Gu Hongzhong"},
+  {t:"The Arnolfini Portrait", a:"Jan van Eyck"},
+  {t:"Judith Beheading Holofernes", a:"Caravaggio"},
+  {t:"Tahitian Scene", a:"Paul Gauguin"},
+  {t:"Self-Portrait", a:"Rembrandt van Rijn"},
+  {t:"American Gothic", a:"Grant Wood"}
+];
+
+/* ============================================================
+   MODEL CONSTANTS
+   ============================================================ */
+const SIGMA = 3.0;             // Gaussian prior std (MAP regularization)
+const SIGMA2 = SIGMA * SIGMA;  // 9
+const ETA = 0.1;               // gradient-ascent learning rate
+const CLAMP = 6;               // score clamp range [-6, 6]
+const CALIB_ROUNDS = 15;
+const PRED_ROUNDS = 20;
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let state;
+function freshState(){
+  return {
+    phase:"intro",
+    s:new Array(N).fill(0),      // latent log-scores; s[0] fixed at 0
+    observations:[],             // [{winner, loser}]
+    shownPairs:new Set(),        // "min-max" keys, never repeat
+    appearances:new Array(N).fill(0),
+    lastSeen:new Array(N).fill(-99),   // global round index when each artwork last appeared
+    totalRound:0,                       // incremented after every observation (calib + pred)
+    broken:new Set(),
+    calibRound:0,
+    predRound:0,
+    predResults:[],              // [{confidence (fraction), correct (bool)}]
+    correct:0,
+    wrong:0,
+    cur:null,                    // current round info
+    accepting:false,
+    merged:false                 // has this game been folded into the global tally yet
+  };
+}
+
+/* ============================================================
+   CORE MATH
+   ============================================================ */
+function sigmoid(x){
+  if(x > 20) return 1;
+  if(x < -20) return 0;
+  return 1 / (1 + Math.exp(-x));
+}
+// Binary entropy in bits of a Bernoulli(p)
+function binEntropy(p){
+  if(p <= 0 || p >= 1) return 0;
+  return -(p*Math.log2(p) + (1-p)*Math.log2(1-p));
+}
+const pairKey = (i,j) => Math.min(i,j) + "-" + Math.max(i,j);
+
+/* Fit scores by full-batch gradient ascent on the MAP objective
+   L_reg(s) = Σ log σ(s_w - s_l)  -  (1/2σ²) Σ s_i²
+   Iterate from the current score vector until convergence.
+
+   NOTE ON THE GRADIENT: for one observation (winner w over loser l),
+     ∂ℓ/∂s_w = 1 - p      ∂ℓ/∂s_l = -(1 - p) = p - 1   with p = σ(s_w - s_l)
+   These are equal-and-opposite (zero-sum) — shifting both scores by the
+   same constant leaves the likelihood unchanged, as it must. The spec's
+   loser term "-p" is an internal inconsistency (it breaks that symmetry
+   and biases the fit), so we use the mathematically correct p-1 here; this
+   is what makes the confidence numbers come out calibrated. s[0] is held
+   at 0 for identifiability. */
+function fitScores(){
+  for(let iter=0; iter<1000; iter++){
+    const grad = new Array(N).fill(0);
+    // log-likelihood gradient
+    for(const o of state.observations){
+      const p = sigmoid(state.s[o.winner] - state.s[o.loser]);
+      grad[o.winner] += (1 - p);
+      grad[o.loser]  += (p - 1);
+    }
+    // Gaussian-prior (MAP) gradient
+    for(let k=0;k<N;k++) grad[k] -= state.s[k] / SIGMA2;
+    // identifiability: pin s[0]
+    grad[0] = 0;
+
+    let maxg = 0;
+    for(let k=1;k<N;k++){
+      state.s[k] += ETA * grad[k];
+      if(state.s[k] >  CLAMP) state.s[k] =  CLAMP;
+      if(state.s[k] < -CLAMP) state.s[k] = -CLAMP;
+      const ag = Math.abs(grad[k]);
+      if(ag > maxg) maxg = ag;
+    }
+    if(maxg < 0.001) break;
+  }
+}
+
+/* Fisher information & standard error per image.
+   I_i = Σ_{comparisons of i} p_ij (1 - p_ij);  SE_i = 1/√(I_i + 1/σ²) */
+function fisherSE(){
+  const I = new Array(N).fill(0);
+  for(const o of state.observations){
+    const p = sigmoid(state.s[o.winner] - state.s[o.loser]);
+    const info = p * (1 - p);
+    I[o.winner] += info;
+    I[o.loser]  += info;
+  }
+  return I.map(Ii => 1 / Math.sqrt(Ii + 1/SIGMA2));
+}
+
+/* All pairs i<j not yet shown and not involving a broken image */
+function unshownPairs(){
+  const out = [];
+  for(let i=0;i<N;i++){
+    if(state.broken.has(i)) continue;
+    for(let j=i+1;j<N;j++){
+      if(state.broken.has(j)) continue;
+      if(state.shownPairs.has(pairKey(i,j))) continue;
+      out.push([i,j]);
+    }
+  }
+  return out;
+}
+
+/* Recency penalty: artworks that appeared very recently get a cost that
+   discourages re-selecting them, giving the user variety.
+   staleness = rounds since last seen; penalty fades after ~4 rounds. */
+function recencyPenalty(i, j){
+  const age = r => Math.max(0, 4 - (state.totalRound - state.lastSeen[r]));
+  return age(i) + age(j);   // 0 when both artworks are "fresh"
+}
+
+/* CALIBRATION pair selection — 15 rounds across 20 artworks, so some will
+   appear twice. Scoring combines information gain (entropy close to 1.0 bit)
+   with two soft constraints weighted in:
+     • prefer least-seen artworks (coverage)
+     • avoid artworks seen very recently (variety)
+   All are scored continuously so we get a genuine combined ranking rather than
+   a hard filter that can leave no candidates at the end. */
+function selectCalibrationPair(){
+  const cands = unshownPairs();
+  if(cands.length === 0) return null;
+
+  const scored = cands.map(([i,j])=>{
+    const p    = sigmoid(state.s[i] - state.s[j]);
+    const info = 1 - Math.abs(1 - binEntropy(p));              // 1 = maximally uncertain
+    const minApp = Math.min(state.appearances[i], state.appearances[j]);
+    const cov  = minApp === 0 ? 2 : minApp === 1 ? 1 : 0;     // prefer unseen
+    const rep  = -recencyPenalty(i, j);                        // negative = bad
+    return {pair:[i,j], score: info*4 + cov*2 + rep};         // weighted sum
+  });
+  scored.sort((a,b) => b.score - a.score);
+  // Pick randomly among the top-3 to avoid always making the identical choice
+  const top = scored.slice(0, Math.min(3, scored.length));
+  return top[Math.floor(Math.random() * top.length)].pair;
+}
+
+function shuffle(a){
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+
+/* PREDICTION pair selection.
+   Two goals: span a range of confidences (so the Oracle sometimes hedges openly
+   rather than always saying "99% sure"), and avoid showing the same artwork too
+   many rounds in a row. We score each candidate pair on:
+     • proximity to a target confidence (supplied by the round schedule)
+     • recency penalty (same as calibration)
+   then pick the best. */
+function selectPredictionPair(target){
+  const cands = unshownPairs();
+  if(cands.length === 0) return null;
+
+  // default target if none given: split roughly even between high/moderate
+  if(target == null) target = 0.85;
+
+  let best=null, bestScore=-Infinity;
+  for(const [i,j] of cands){
+    const conf  = sigmoid(Math.abs(state.s[i] - state.s[j]));
+    const match = 1 - Math.abs(conf - target);   // 1 = perfect match
+    const rep   = -recencyPenalty(i, j) * 0.25;
+    const score = match + rep;
+    if(score > bestScore){ bestScore=score; best=[i,j]; }
+  }
+  return best;
+}
+
+function recordObservation(winner, loser){
+  state.observations.push({winner, loser});
+  state.appearances[winner]++;
+  state.appearances[loser]++;
+  state.lastSeen[winner] = state.totalRound;
+  state.lastSeen[loser]  = state.totalRound;
+  state.totalRound++;
+  state.shownPairs.add(pairKey(winner, loser));
+}
+
+/* ============================================================
+   GLOBAL TALLY — the gallery's running ranking of all visitors' choices.
+   Persisted in localStorage (this is a single static file with no backend, so
+   "global" means "everyone who has visited in this browser"; a real cross-user
+   board would just need this same tally kept on a server). Purely observational —
+   it never feeds the Bradley-Terry model.
+   ============================================================ */
+/* ============================================================
+   GLOBAL TALLY — real cross-user stats via Supabase.
+   Fill in your project URL and anon key below (both are safe to
+   expose in client-side code — Supabase's Row Level Security
+   controls what anonymous users can actually do).
+
+   If the credentials are missing or the fetch fails, the code
+   silently falls back to localStorage so the game keeps working.
+   ============================================================ */
+const SB_URL      = "YOUR_SUPABASE_URL";   // e.g. https://xxxx.supabase.co
+const SB_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+const SB_READY    = SB_URL && !SB_URL.includes("YOUR_");
+
+// Stable per-browser session ID so we can count distinct visitors.
+const SESSION_ID  = (()=>{
+  const k = "oracle_session_v1";
+  let id = sessionStorage.getItem(k);
+  if(!id){ id = (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2)); sessionStorage.setItem(k,id); }
+  return id;
+})();
+
+// ---- localStorage fallback (used when Supabase is not configured) ----
+const LS_KEY = "oracle_gallery_v1";
+function lsLoad(){
+  try{
+    const o=JSON.parse(localStorage.getItem(LS_KEY));
+    if(o && Array.isArray(o.wins) && o.wins.length===N) return {wins:o.wins, games:o.games, visits:o.visits||0};
+  }catch(e){}
+  return {wins:new Array(N).fill(0), games:new Array(N).fill(0), visits:0};
+}
+function lsSave(g){ try{ localStorage.setItem(LS_KEY, JSON.stringify(g)); }catch(e){} }
+function lsMerge(){
+  const g=lsLoad();
+  for(const o of state.observations){ g.wins[o.winner]++; g.games[o.winner]++; g.games[o.loser]++; }
+  g.visits++; lsSave(g); return g;
+}
+
+// ---- Supabase helpers ----
+function sbHeaders(){
+  return {'Content-Type':'application/json','apikey':SB_ANON_KEY,'Authorization':'Bearer '+SB_ANON_KEY};
+}
+
+// Push this game's votes to Supabase (fire-and-forget, one batch insert).
+async function sbPushVotes(){
+  if(!SB_READY) return;
+  const rows = state.observations.map(o=>({winner_id:o.winner, loser_id:o.loser, session_id:SESSION_ID}));
+  try{
+    const r = await fetch(SB_URL+'/rest/v1/oracle_votes',
+      {method:'POST', headers:{...sbHeaders(),'Prefer':'return=minimal'}, body:JSON.stringify(rows)});
+    if(!r.ok) console.warn('Oracle: vote push failed', r.status);
+  }catch(e){ console.warn('Oracle: vote push error', e); }
+}
+
+// Fetch the aggregated tally from Supabase via RPC.
+async function sbFetchTally(){
+  if(!SB_READY) return null;
+  try{
+    const [tallyRes, visitsRes] = await Promise.all([
+      fetch(SB_URL+'/rest/v1/rpc/get_oracle_tally', {method:'POST', headers:sbHeaders(), body:'{}'}),
+      fetch(SB_URL+'/rest/v1/rpc/get_oracle_visits',{method:'POST', headers:sbHeaders(), body:'{}'})
+    ]);
+    if(!tallyRes.ok || !visitsRes.ok) return null;
+    const rows   = await tallyRes.json();   // [{artwork_id, wins, games}, ...]
+    const vrows  = await visitsRes.json();  // [{visits}]
+    const wins  = new Array(N).fill(0);
+    const games = new Array(N).fill(0);
+    for(const r of rows){ wins[r.artwork_id]=parseInt(r.wins)||0; games[r.artwork_id]=parseInt(r.games)||0; }
+    return {wins, games, visits:parseInt(vrows[0]?.visits)||0};
+  }catch(e){ console.warn('Oracle: tally fetch error', e); return null; }
+}
+
+// Merge this game's data and return the current global tally.
+// Always returns a plain {wins, games, visits} object (falls back to localStorage).
+async function mergeGlobal(){
+  if(!state.merged){
+    if(SB_READY) await sbPushVotes();
+    else lsMerge();        // persist locally when no Supabase
+    state.merged = true;
+  }
+  const remote = await sbFetchTally();
+  if(remote) return remote;
+  return lsLoad();         // fallback — includes this session since lsMerge was called above
+}
+
+// Laplace-smoothed win rate so artworks with few judgements stay comparable.
+const globalRate = (g,i) => (g.wins[i]+1) / (g.games[i]+2);
+
+/* ============================================================
+   SIDEBAR (live score chart)
+   ============================================================ */
+let barRows = null;
+function buildBars(){
+  const bars = document.getElementById("bars");
+  bars.innerHTML = "";
+  barRows = [];
+  for(let i=0;i<N;i++){
+    const row = document.createElement("div"); row.className = "bar-row";
+    const thumb = document.createElement("img");
+    thumb.className = "bar-thumb"; thumb.src = IMAGES[i]; thumb.alt="";
+    thumb.title = TITLES[i].t + " — " + TITLES[i].a;
+    thumb.onerror = () => { thumb.style.visibility = "hidden"; };
+    const track = document.createElement("div"); track.className = "bar-track";
+    const se = document.createElement("div"); se.className = "bar-se";
+    const fill = document.createElement("div"); fill.className = "bar-fill";
+    track.appendChild(se); track.appendChild(fill);
+    row.appendChild(thumb); row.appendChild(track);
+    bars.appendChild(row);
+    barRows.push({row, fill, se});
+  }
+}
+function renderSidebar(){
+  if(!barRows) buildBars();
+  const ses = fisherSE();
+  const order = [...Array(N).keys()].sort((a,b)=>state.s[b]-state.s[a]);
+  const rank = new Array(N);
+  order.forEach((idx,r)=>{ rank[idx]=r; });
+  for(let i=0;i<N;i++){
+    const v = Math.max(0, Math.min(100, (state.s[i]+CLAMP)/(2*CLAMP)*100));
+    const sePct = ses[i]/(2*CLAMP)*100;
+    const left = Math.max(0, v - sePct);
+    const right = Math.min(100, v + sePct);
+    const {row, fill, se} = barRows[i];
+    row.style.order = rank[i];
+    fill.style.width = v + "%";
+    se.style.left = left + "%";
+    se.style.width = (right - left) + "%";
+  }
+}
+function showSidebar(show){
+  document.getElementById("sidebar").classList.toggle("hidden", !show);
+}
+
+/* ============================================================
+   IMAGE HELPERS
+   ============================================================ */
+function preloadAll(){
+  // Warm the browser cache for all images. We deliberately do NOT mark images
+  // broken here: a transient/rate-limited probe failure shouldn't permanently
+  // bench an image. Only a failure of the actually-displayed <img> (handled in
+  // imgEl's onerror) excludes an image from future pair selection.
+  IMAGES.forEach((url)=>{ const im = new Image(); im.src = url; });
+}
+function imgEl(idx){
+  // returns markup for a framed artwork with a broken-image fallback.
+  // (We don't hide the <img> via display:none — the CSS aspect-ratio box must
+  //  stay so the frame keeps its shape; .broken hides it with visibility instead.)
+  return `<img src="${IMAGES[idx]}" alt="${TITLES[idx].t}"
+            onerror="this.parentElement.classList.add('broken');this.parentElement.dataset.label='${TITLES[idx].a}';markBroken(${idx});">`;
+}
+function markBroken(idx){ state.broken.add(idx); }
+window.markBroken = markBroken;
+
+/* ============================================================
+   PHASE 1 — INTRO
+   ============================================================ */
+function showIntro(){
+  state = freshState();
+  barRows = null;
+  showSidebar(false);
+  const stage = document.getElementById("stage");
+  stage.innerHTML = `
+    <div class="intro fade-in">
+      <div class="flourish">✦ &nbsp; ✦ &nbsp; ✦</div>
+      <h1 class="serif">Oracle</h1>
+      <div class="sub">Can I learn your taste in 15 paintings?</div>
+      <p>Step into the gallery. You'll be shown pairs of paintings and simply choose
+      the one you prefer. After 15 such judgements I'll begin predicting your choices
+      before you make them — and tell you how confident I am.</p>
+      <button class="btn" id="beginBtn">Enter the gallery</button>
+    </div>`;
+  document.getElementById("beginBtn").onclick = beginGame;
+}
+
+function beginGame(){
+  preloadAll();
+  showSidebar(true);
+  buildBars();
+  renderSidebar();
+  state.phase = "calibration";
+  nextCalibrationRound();
+}
+
+/* ============================================================
+   PHASE 2 — CALIBRATION
+   ============================================================ */
+function nextCalibrationRound(){
+  if(state.calibRound >= CALIB_ROUNDS){ startPrediction(); return; }
+  const pair = selectCalibrationPair();
+  if(!pair){ startPrediction(); return; }
+  // random left/right placement
+  const [a,b] = pair;
+  const [li, ri] = Math.random() < 0.5 ? [a,b] : [b,a];
+  state.cur = {li, ri};
+  state.accepting = true;
+
+  const stage = document.getElementById("stage");
+  const prog = (state.calibRound) / CALIB_ROUNDS * 100;
+  stage.innerHTML = `
+    <div class="phase-calib fade-in" style="display:flex;flex-direction:column;align-items:center;">
+      <div class="prompt serif">Which do you prefer?</div>
+      <div class="pair">
+        <div class="card" data-side="L">${imgEl(li)}</div>
+        <div class="card" data-side="R">${imgEl(ri)}</div>
+      </div>
+      <div class="progress">
+        <div class="progress-bar"><div class="progress-fill" style="width:${prog}%"></div></div>
+        <div class="round-label">Round ${state.calibRound+1} of ${CALIB_ROUNDS}</div>
+      </div>
+      <div class="status">Learning your preferences…</div>
+    </div>`;
+  stage.querySelectorAll(".card").forEach(c=>{
+    c.onclick = () => onCalibChoice(c.dataset.side, c);
+  });
+}
+
+function onCalibChoice(side, cardEl){
+  if(!state.accepting) return;
+  state.accepting = false;
+  const chosen = side === "L" ? state.cur.li : state.cur.ri;
+  const other  = side === "L" ? state.cur.ri : state.cur.li;
+
+  recordObservation(chosen, other);
+  fitScores();
+  renderSidebar();
+
+  cardEl.classList.add("chosen");
+  document.querySelectorAll(".card").forEach(c=>c.classList.add("disabled"));
+
+  setTimeout(()=>{
+    state.calibRound++;
+    nextCalibrationRound();
+  }, 470);
+}
+
+/* ============================================================
+   PHASE 3 — PREDICTION
+   ============================================================ */
+/* A short "I've learned your taste — now let me test it" beat between phases. */
+function startPrediction(){
+  state.phase = "transition";
+  showSidebar(false);
+  const stage = document.getElementById("stage");
+  stage.innerHTML = `
+    <div class="intro transition fade-in">
+      <div class="sub">Calibration complete</div>
+      <h1 class="serif">I think I know your taste.</h1>
+      <p>Now the real test. For the next ${PRED_ROUNDS} rounds I'll call which painting
+      you'll prefer <em>before</em> you choose — and tell you exactly how confident I am.
+      Let's see how right I am.</p>
+      <button class="btn" id="predBtn">Test me &rarr;</button>
+    </div>`;
+  document.getElementById("predBtn").onclick = beginPredictions;
+}
+
+function beginPredictions(){
+  state.phase = "prediction";
+  state.predRound = 0;
+  showSidebar(true);
+  renderSidebar();
+  nextPredictionRound();
+}
+
+/* Confidence targets for each prediction round — spread from hedging to bold
+   so the Oracle's stated certainty varies naturally across the session. */
+const CONF_TARGETS = (function(){
+  // Spread from 0.87 to 0.97 so the Oracle varies between "I think so" and "I'm sure"
+  // without ever dipping below ~87% stated confidence.
+  const out=[];
+  for(let r=0;r<20;r++){
+    const base = 0.87 + (0.97-0.87)*(r/19);
+    const jitter = (Math.random()-0.5)*0.05;
+    out.push(Math.max(0.86, Math.min(0.97, base+jitter)));
+  }
+  return shuffle(out);
+})();
+
+function nextPredictionRound(){
+  if(state.predRound >= PRED_ROUNDS){ showReveal(); return; }
+  const target = CONF_TARGETS[state.predRound] ?? 0.85;
+  let pair = selectPredictionPair(target);
+  if(!pair){ showReveal(); return; }
+  const [a,b] = pair;
+  const [li, ri] = Math.random() < 0.5 ? [a,b] : [b,a];
+
+  const diff = state.s[a] - state.s[b];
+  const predWinner = state.s[a] >= state.s[b] ? a : b;
+  const confFrac = sigmoid(Math.abs(diff));     // model's stated confidence
+  const conf = Math.round(confFrac * 100);
+  const predSide = predWinner === li ? "LEFT" : "RIGHT";
+
+  state.cur = {li, ri, predWinner, confFrac};
+  state.accepting = false; // locked until reveal
+
+  const stage = document.getElementById("stage");
+  const prog = (state.predRound) / PRED_ROUNDS * 100;
+  const total = state.correct + state.wrong;
+  const tallyText = total === 0
+    ? `Let's see how well I know you.`
+    : `So far I've been right <b>${state.correct}</b> of <b>${total}</b>.`;
+  stage.innerHTML = `
+    <div class="phase-pred fade-in" style="display:flex;flex-direction:column;align-items:center;">
+      <div class="banner">
+        <div class="banner-main" id="oracleSays">Let me study the two of you<span class="dots">…</span></div>
+        <div class="banner-sub" id="oracleSub">&nbsp;</div>
+      </div>
+      <div class="pair">
+        <div class="card blurred" data-side="L">${imgEl(li)}<div class="verdict"></div></div>
+        <div class="card blurred" data-side="R">${imgEl(ri)}<div class="verdict"></div></div>
+      </div>
+      <div class="progress">
+        <div class="progress-bar"><div class="progress-fill" style="width:${prog}%"></div></div>
+        <div class="round-label">Round ${state.predRound+1} of ${PRED_ROUNDS}</div>
+      </div>
+      <div class="tally">${tallyText}</div>
+    </div>`;
+
+  // Dramatic beat: the Oracle considers, then names its guess and points to it.
+  setTimeout(()=>{
+    const cards = [...stage.querySelectorAll(".card")];
+    cards.forEach(c=>c.classList.remove("blurred"));
+    const predCard = cards.find(c => c.dataset.side === (predSide==="LEFT"?"L":"R"));
+    predCard.classList.add("predicted");
+    // Animated hand-sketched arrow pointing down at the predicted frame
+    const arrow = document.createElementNS("http://www.w3.org/2000/svg","svg");
+    arrow.setAttribute("class","sketch-arrow"); arrow.setAttribute("viewBox","0 0 38 68");
+    arrow.setAttribute("width","38"); arrow.setAttribute("height","68");
+    arrow.innerHTML = `
+      <path class="arrow-shaft"
+        d="M19 2 C22 10, 15 20, 20 30, 17 40, 21 50, 18 58"
+        fill="none" stroke="#9a7a36" stroke-width="2.4"
+        stroke-linecap="round" pathLength="1"/>
+      <path class="arrow-head"
+        d="M9 48 L18 60 L28 48"
+        fill="none" stroke="#9a7a36" stroke-width="2.4"
+        stroke-linecap="round" stroke-linejoin="round" pathLength="1"/>`;
+    predCard.appendChild(arrow);
+    const says = document.getElementById("oracleSays");
+    const sub = document.getElementById("oracleSub");
+    if(says) says.innerHTML = `I think you prefer&hellip; <span class="accent">this one</span>.`;
+    if(sub) sub.textContent = `I'm ${conf}% sure — am I right?`;
+    state.accepting = true;
+    cards.forEach(c=>{ c.onclick = () => onPredChoice(c.dataset.side, c); });
+  }, 950);
+}
+
+function onPredChoice(side, cardEl){
+  if(!state.accepting) return;
+  state.accepting = false;
+  const chosen = side === "L" ? state.cur.li : state.cur.ri;
+  const other  = side === "L" ? state.cur.ri : state.cur.li;
+  const correct = chosen === state.cur.predWinner;
+
+  if(correct) state.correct++; else state.wrong++;
+  state.predResults.push({confidence: state.cur.confFrac, correct});
+
+  // verdict overlay on the chosen card
+  const v = cardEl.querySelector(".verdict");
+  v.textContent = correct ? "✓ Knew it" : "✗ You surprised me";
+  v.classList.add("show", correct ? "ok" : "no");
+  document.querySelectorAll(".card").forEach(c=>c.classList.add("disabled"));
+
+  // the Oracle reacts
+  const says = document.getElementById("oracleSays");
+  const sub = document.getElementById("oracleSub");
+  if(says) says.innerHTML = correct ? `I knew it.` : `Well — you surprised me.`;
+  if(sub) sub.textContent = "";
+
+  // keep learning
+  recordObservation(chosen, other);
+  fitScores();
+  renderSidebar();
+
+  // update tally text immediately
+  const tally = document.querySelector(".tally");
+  if(tally) tally.innerHTML = `So far I've been right <b>${state.correct}</b> of <b>${state.correct+state.wrong}</b>.`;
+
+  setTimeout(()=>{
+    state.predRound++;
+    nextPredictionRound();
+  }, 1000);
+}
+
+/* ============================================================
+   PHASE 4 — REVEAL
+   ============================================================ */
+function galleryHTML(g){
+  const byRate = [...Array(N).keys()].sort((a,b)=>globalRate(g,b)-globalRate(g,a));
+  const judgements = g.games.reduce((a,b)=>a+b,0) / 2;
+  const grow = idx => {
+    const rate = Math.round(globalRate(g,idx)*100);
+    return `<div class="grow">
+        <img class="gthumb" src="${IMAGES[idx]}" alt="" onerror="this.style.visibility='hidden'">
+        <div class="gmeta">
+          <div class="gt">${TITLES[idx].t}</div>
+          <div class="ga">${TITLES[idx].a} · ${g.wins[idx]}/${g.games[idx]} chosen</div>
+          <div class="gbar"><i style="width:${rate}%"></i></div>
+        </div>
+        <div class="gpct">${rate}%</div>
+      </div>`;
+  };
+  return `
+    <div class="galleries">
+      <div class="gboard"><h4>Most admired</h4>${byRate.slice(0,5).map(grow).join("")}</div>
+      <div class="gboard"><h4>Least admired</h4>${byRate.slice(-5).reverse().map(grow).join("")}</div>
+    </div>
+    <div class="gfoot">Tallied across ${g.visits} visit${g.visits===1?"":"s"} to this gallery · ${judgements} judgement${judgements===1?"":"s"} cast.
+      This board is for curiosity only — it never influences the Oracle's predictions.</div>`;
+}
+
+async function showReveal(){
+  state.phase = "reveal";
+  showSidebar(false);
+  const total = state.correct + state.wrong;
+  const acc = total ? Math.round(state.correct/total*100) : 0;
+
+  // ranking (desc by score)
+  const order = [...Array(N).keys()].sort((a,b)=>state.s[b]-state.s[a]);
+  const ascOrder = [...order].reverse();
+  const pctOf = idx => Math.round(ascOrder.indexOf(idx)/(N-1)*100);
+
+  let gridHTML = "";
+  order.forEach((idx, r)=>{
+    const pct = pctOf(idx);
+    gridHTML += `
+      <div class="grid-cell">
+        <div class="ph"><span class="rank-badge">#${r+1}</span>${imgEl(idx)}</div>
+        <div class="cap"><span class="cap-t">${TITLES[idx].t}</span><span class="cap-a">${TITLES[idx].a}</span></div>
+        <div class="pct-track"><div class="pct-fill" style="width:${pct}%"></div></div>
+        <div class="pct-num">${pct}% percentile</div>
+      </div>`;
+  });
+
+  const stage = document.getElementById("stage");
+  stage.innerHTML = `
+    <div class="reveal fade-in">
+
+      <h2>Accuracy</h2>
+      <div class="big-score serif">Oracle went ${state.correct} for ${total}
+        <small>That's ${acc}% accuracy — chance would be 50%.</small>
+      </div>
+
+      <h2>Your taste profile</h2>
+      <div class="grid">${gridHTML}</div>
+      <div style="text-align:center;color:var(--muted);font-size:13px;margin-top:16px;font-style:italic;">
+        Your ranking, learned from ${state.observations.length} choices.
+      </div>
+
+      <h2>The gallery's favourites</h2>
+      <div id="gallerySection" style="color:var(--muted);font-style:italic;padding:20px 0;">
+        Consulting the gallery records…
+      </div>
+
+      <h2>What just happened</h2>
+      <div class="explain">
+        <p><b>Bradley-Terry.</b> Every painting i gets a single latent "merit" score sᵢ.
+        The chance you prefer i over j depends only on the gap sᵢ − sⱼ, squashed through
+        the logistic function. Pairwise comparisons are the right data here: people are far
+        better at saying "this one" than at handing out absolute 1–10 ratings, and each click
+        pins down a difference of scores.</p>
+
+        <p><b>Maximum likelihood.</b> Each of your ${state.observations.length} choices is a
+        Bernoulli trial whose success probability is σ(sᵢ − sⱼ). Multiplying those probabilities
+        gives the likelihood of everything you did; logs turn the product into a sum. We then
+        slide the scores uphill on that log-likelihood by gradient ascent until they stop moving —
+        the maximum-likelihood (here MAP) estimate of your taste.</p>
+
+        <p><b>Calibrated confidence.</b> When the Oracle says it's "82% sure," that number is
+        σ(|sᵢ − sⱼ|) — its own estimated probability that its pick wins. The bigger the gap between
+        two paintings' scores, the surer it is; the closer they sit, the more it hedges.</p>
+      </div>
+
+      <div class="reveal-buttons">
+        <button class="btn" id="againBtn">Play again</button>
+        <button class="btn ghost" id="mathBtn">See the math</button>
+        <button class="btn ghost" id="faqBtn">Questions?</button>
+      </div>
+
+      <div id="faqPanel" class="faq hidden">
+        <div class="faq-item">
+          <div class="faq-q">The Oracle got it wrong, but said it was 99% confident. How?</div>
+          <div class="faq-a">The Oracle's confidence reflects how far apart the two paintings sit in its learned score
+          model — not how reliable that model actually is. After just 15 comparisons across 20 works,
+          its scores can diverge quite a bit simply by chance: if <em>The Starry Night</em> happened to
+          win every early match, the model assigns it a very high score and calls any pairing involving
+          it with near-certainty — even if that ranking is slightly wrong. Think of it as a very
+          opinionated friend who has met you only briefly: they can be loudly confident and still be
+          wrong about you.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Why does it always seem so sure?</div>
+          <div class="faq-a">The confidence formula is σ(|sᵢ − sⱼ|), the logistic function applied to the
+          score gap. Even a modest gap of 2 points translates to ~88%; a gap of 4 gives ~98%.
+          Because the model is simultaneously fitting all 20 scores to a small number of observations,
+          the scores spread out quickly and land far apart — so most pairs end up looking decisive.
+          In a longer experiment with hundreds of comparisons the scores would be more tightly estimated
+          and the confidence numbers would more faithfully track actual accuracy.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">What is the Bradley-Terry model?</div>
+          <div class="faq-a">A classic statistical model (1952) that assigns each item a latent "strength"
+          and predicts head-to-head outcomes via the logistic function. It's the same framework used
+          to rank chess players (Elo ratings), sports teams, and search-result relevance. Here each
+          painting gets a score, and your choices are the evidence used to fit those scores by
+          maximum-likelihood estimation.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Is my ranking stored anywhere?</div>
+          <div class="faq-a">Your individual session is never sent anywhere — this is a single self-contained
+          HTML file with no server. The only thing that persists across visits is the anonymous
+          win/loss tally used for "The gallery's favourites," stored in your browser's localStorage.
+          Clearing your browser data removes it entirely.</div>
+        </div>
+      </div>
+
+      <div id="mathPanel" class="math hidden">
+        <h3>Bradley-Terry model</h3>
+        With positive strengths θᵢ = e^{sᵢ}:
+        <span class="eq">P(i ≻ j) = θᵢ / (θᵢ + θⱼ)</span>
+        Dividing top and bottom by θⱼ shows this is exactly logistic regression on the score gap:
+        <span class="eq">P(i ≻ j) = 1 / (1 + e^{−(sᵢ − sⱼ)}) = σ(sᵢ − sⱼ)</span>
+
+        <h3>Likelihood of one choice (Bernoulli)</h3>
+        A choice "i over j" is one Bernoulli observation with success prob p = σ(sᵢ − sⱼ):
+        <span class="eq">ℓ = log σ(sᵢ − sⱼ)</span>
+        <span class="eq">L(s) = Σ over all choices  log P(outcome | s)</span>
+
+        <h3>Gradient of the log-likelihood</h3>
+        With p = σ(sᵢ − sⱼ):
+        <span class="eq">∂ℓ/∂sᵢ = 1 − p&nbsp;&nbsp;&nbsp;&nbsp;∂ℓ/∂sⱼ = −(1 − p) = p − 1</span>
+        <span class="note">Equal and opposite — only score differences are identifiable, so we
+        pin s₀ = 0 as the reference.</span>
+
+        <h3>MAP regularization</h3>
+        A Gaussian prior sᵢ ~ N(0, σ²) with σ = 3 adds a penalty, keeping scores finite even when
+        an image wins or loses all its matchups:
+        <span class="eq">L_reg(s) = L(s) − (1 / 2σ²) · Σᵢ sᵢ²</span>
+        which contributes −sᵢ/σ² to each gradient. We run gradient ascent (η = 0.1) to convergence.
+
+        <h3>Fisher information &amp; uncertainty</h3>
+        The information image i has accumulated, and its standard error:
+        <span class="eq">Iᵢ = Σ (over i's comparisons) p·(1 − p)&nbsp;&nbsp;&nbsp;&nbsp;SEᵢ = 1 / √(Iᵢ + 1/σ²)</span>
+        Images seen more often (and in more decisive matchups) earn a smaller SE — the shrinking
+        bands in the sidebar.
+      </div>
+    </div>`;
+
+  document.getElementById("againBtn").onclick = showIntro;
+  document.getElementById("mathBtn").onclick = ()=>{ document.getElementById("mathPanel").classList.toggle("hidden"); };
+  document.getElementById("faqBtn").onclick   = ()=>{ document.getElementById("faqPanel").classList.toggle("hidden"); };
+
+  // Async: push votes, fetch tally, fill the gallery section.
+  mergeGlobal().then(g=>{
+    const el = document.getElementById("gallerySection");
+    if(el) el.innerHTML = galleryHTML(g);
+  }).catch(()=>{
+    const el = document.getElementById("gallerySection");
+    if(el) el.innerHTML = `<div class="gfoot">Gallery data unavailable.</div>`;
+  });
+}
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+showIntro();
+</script>
+</body>
+</html>

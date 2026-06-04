@@ -354,7 +354,8 @@ function freshState(){
     wrong:0,
     cur:null,                    // current round info
     accepting:false,
-    merged:false                 // has this game been folded into the global tally yet
+    merged:false,                // has this game been folded into the global tally yet
+    gameId: crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2)
   };
 }
 
@@ -563,7 +564,7 @@ function sbHeaders(){
 // Push this game's votes to Supabase (fire-and-forget, one batch insert).
 async function sbPushVotes(){
   if(!SB_READY) return;
-  const rows = state.observations.map(o=>({winner_id:o.winner, loser_id:o.loser, session_id:SESSION_ID}));
+  const rows = state.observations.map(o=>({winner_id:o.winner, loser_id:o.loser, session_id:SESSION_ID, game_id:state.gameId}));
   try{
     const r = await fetch(SB_URL+'/rest/v1/oracle_votes',
       {method:'POST', headers:{...sbHeaders(),'Prefer':'return=minimal'}, body:JSON.stringify(rows)});
